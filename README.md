@@ -2,7 +2,7 @@
 The simulator to schedule typed DAG tasks on heterogeneous multiprocessor platform.
 <br />
 ## Before starting
-The Dirichlet-Rescale (DRS) algorithm[^1] is applied for generate utilizations of task sets randomly
+The Dirichlet-Rescale (DRS) algorithm[^1] is applied to generate utilizations of task sets randomly
 ```
 pip3 install drs
 ```
