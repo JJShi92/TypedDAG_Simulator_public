@@ -62,6 +62,7 @@ In the `experiments` folder, we provide the tools to
 - `gen_affinity.py`: Generate the affinity of a given task set. 
 - `gen_schedule.py`: Generate the schedule of a given task set with the generated optimizaed affinity.
 - `draw_schedule.py`: The script to draw the Gantt chart of a generated schedule.
+
 In the original mode, we only try Han's approach with EMU partition approach and our improved federated approach due to the better performance.
 The Greedy partition approach for Han's approach and Greedy federated approach in [^2] are also supported but not applied in the `gen_affinity.py`.
 <br />
