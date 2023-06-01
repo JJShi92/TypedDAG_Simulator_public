@@ -10,47 +10,43 @@ pip3 install drs
 Inside the genrators folder, we provide tools to 1) generate the configuration file; 2) generate pure DAG tasks; 3) generate the typed information, i.e., each node is assigned to one type of processors, and 4) generate the requested data address for each node.
 #### DAG Task generator
 The configuration file contains the following parameters:
-# msets: number of sets
-# ntasks: number of tasks for each set
-# If the given ntasks < 1, the number of tasks are generated randomly due to the sparse parameter
-# spars-0: [0.5 * max(aprocessor, bprocessor), 2 * max(aprocessor, bprocessor)]
-# spars-1: [(aprocessor + aprocessor), 2 * (aprocessor + aprocessor)]
-# spars-2: [0.25 * (aprocessor + aprocessor), (aprocessor + aprocessor)]
-# aprocessor: number of processor A
-# bprocessor: number of processor B
-# pc_prob: the lower bound and upper bound of probability of two vertices have edge
-# The real probability \in [pc_prob_l, pc_prob_h]
-# utilization: total utilization for a set of tasks
-# scale: the scale to keep all the parameters are integers
+| Parameter        | Description                                                                                                  |
+|------------------|--------------------------------------------------------------------------------------------------------------|
+| msets            | Number of sets                                                                                               |
+| ntasks           | Number of tasks for each set. If `ntasks < 1`, the number of tasks is generated randomly due to the sparse parameter |
+| spars-0          | Range: `[0.5 * max(aprocessor, bprocessor), 2 * max(aprocessor, bprocessor)]`                                |
+| spars-1          | Range: `[(aprocessor + aprocessor), 2 * (aprocessor + aprocessor)]`                                          |
+| spars-2          | Range: `[0.25 * (aprocessor + aprocessor), (aprocessor + aprocessor)]`                                      |
+| aprocessor       | Number of processor A                                                                                        |
+| bprocessor       | Number of processor B                                                                                        |
+| pc_prob          | Lower and upper bounds of the probability of two vertices having an edge. The real probability is in the range `[pc_prob_l, pc_prob_h]` |
+| utilization      | Total utilization for a set of tasks                                                                          |
+| scale            | Scale to keep all the parameters as integers                                                                  |
+| skewness         | Controls the skewness of the skewed tasks                                                                     |
+| per_heavy        | Percentage of heavy^a or heavy^b tasks (e.g., 0%, 25%, 50%, 75%, and 100%)                                   |
+| one_type_only    | Whether to allow a task to require only one type of processor: 0 (not allowed) or 1 (allowed)                |
+| num_data_all     | Number of all available data                                                                                  |
+| num_freq_data    | Number of frequently requested data                                                                           |
+| percent_freq     | Percentage of requesting the frequently requested data                                                       |
+| allow_freq-0     | Generate requested data randomly regardless of the frequently requested data                                 |
+| allow_freq-1     | Control the percentage of frequently requested data                                                          |
+| main_mem_size    | Size of the main memory. Assume a very large number can store all the requested data                          |
+| main_mem_time    | Time for data access from main memory                                                                         |
+| fast_mem_size    | Size of the fast memory                                                                                        |
+| fast_mem_time    | Time for data access from fast memory                                                                          |
+| l1_cache_size    | Size of the L1 cache                                                                                          |
+| l1_cache_time    | Time for data access from L1 cache                                                                             |
+| try_avg_case     | Whether to try average case execution time (acet) when the WCET cannot pass the schedulability test          |
+| avg_ratio        | Ratio of acet/wcet                                                                                            |
+| std_dev          | Standard deviation for generating real case execution time when simulating the schedule                      |
+| tolerate_pa      | Upper bound of the tolerable number of type A processors when the current number is not enough               |
+| tolerate_pb      | Upper bound of the tolerable number of type B processors when the current number is not enough               |
+| rho_greedy       | Setting of rho for the greedy federated schedule algorithm. `0 < rho <= 0.5`                                  |
+| rho_imp_fed      | Setting of rho for the improved federated schedule algorithm. `rho = 1/7.25`                                 |
 
-# skewness: controls the skewness of the skewed tasks
-# e.g., 10% nodes for the task is assigned on A core, and others on B core (heavy^b task)
-# per_heavy: the percentage of heavy^a or heavy^b tasks, e.g., 0%, 25%, 50%, 75%, and 100%
-# one_type_only: if allow a task only require one type of processor:
-# i.e., 0: not allowed; 1: allowed, the percentage can be defined by mod_2 (if needed)
 
-# num_data_all: the number of all the available data
-# num_freq_data: number of the frequently requested data
-# percent_freq: the percentage of requesting the frequently requested data
-# allow_freq-0: fully randomly generate the requested data regardless of the frequently requested data
-# allow_freq-1: control the percent of frequently requested data
-
-# main_mem_size: the size for main memory, assume a very large number can store all the requested data
-# main_mem_time: the time for data access from main memory
-# fast_mem_size: the size for fast memory
-# fast_mem_time: time time for data access from fast memory
-# l1_cache_size: the size for l1 cache
-# l1_cache_time: the time for data access from l1 cache
-
-# try_avg_case: when the wcet cannot pass the schedulability test, do we try average case execution time (acet)
-# avg_ratio: the ratio of acet/wcet
-# std_dev: the the standard deviation for generating real case execution time when simulating the schedule
-# tolerate_pa: the upper bound of tolerable number of type A processor when the current number of type A processor is not enough
-# tolerate_pb: the upper bound of tolerable number of type B processor when the current number of type B processor is not enough
-# rho_greedy: the setting of rho for greedy federated schedule algorithm, 0 < rho <= 0.5
-# rho_imp_fed: the setting of rho for our improved federated schedule algorithm, rho = 1/7.25
-
-After configure all of these aforementioned parameters in the file `configuration_generator.py`\\
+After configure all of these aforementioned parameters in the file `configuration_generator.py`
+<br \>
 Run `./generate_tasksets.sh` to generate all the needed information for task sets.
 
 ## Algorithms
@@ -68,7 +64,7 @@ In the `experiments` folder, we provide the tools to
 - `draw_schedule.py`: The script to draw the Gantt chart of a generated schedule.
 In the original mode, we only try Han's approach with EMU partition approach and our improved federated approach due to the better performance.
 The Greedy partition approach for Han's approach and Greedy federated approach in [^2] are also supported but not applied in the `gen_affinity.py`.
-<\br>
+<br />
 The final affinity will be selected according to the minial total required number of cores. 
 If both of them are not feasible with the given WCET, we will try average case execution time (ACET) with the average ratio, minimal ratio and standard deviation.
 And/or reset the upper bound of available number of processors of both types (to the tolerate bound) to check how many cores are needed with WCET and with ACET if WCET is still infeasible.
