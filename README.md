@@ -75,5 +75,5 @@ If non of aforementioned approaches is feasible, a raw affinity is assigned, i.e
 
 ## References
 [^1]: https://pypi.org/project/drs/ 
-[^2]: C. Lin, J. Shi, N. Ueter, M. Günzel, J. Reineke, and J. Chen. Type-aware federated scheduling for typed DAG tasks on heterogeneous multicore platforms. IEEE Trans. Computers, 72(5):1286–1300, 2023.
+[^2]: C. Lin, J. Shi, N. Ueter, M. Günzel, J. Reineke, and J. Chen. Type-aware federated scheduling for typed DAG tasks on heterogeneous multicore platforms. IEEE Trans. Computers, 72(5):1286-1300, 2023.
 [^3]: M. Han, T. Zhang, Y. Lin, and Q. Deng. Federated scheduling for typed DAG tasks scheduling analysis on heterogeneous multi-cores. J. Syst. Archit., 112:101870, 2021.
