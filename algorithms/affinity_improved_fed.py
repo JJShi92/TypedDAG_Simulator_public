@@ -458,7 +458,7 @@ def shared_light_newcore(light_task, partitioned_ab_org, available_cores):
     # no task in the shared A core
     # only add a B core is sufficient
     # currently only the task in the A core
-    if len(partitioned_a[0]) == 0 and light_task[1].utilizationA > 0:
+    if len(partitioned_a[0]) == 0 and light_task[1].utilizationA > 0 and light_task[1].utilizationB > 0:
         new_processor = []
         new_task = []
         new_task.append(light_task)
@@ -478,7 +478,7 @@ def shared_light_newcore(light_task, partitioned_ab_org, available_cores):
     # no task in the shared B core
     # only add a A core is sufficient
     # currently only the task in the B core
-    if len(partitioned_b[0]) == 0 and light_task[1].utilizationB > 0 and:
+    if len(partitioned_b[0]) == 0 and light_task[1].utilizationB > 0 and light_task[1].utilizationA > 0:
         new_processor = []
         new_task = []
         new_task.append(light_task)
