@@ -329,7 +329,7 @@ def sched_han(taskset_org, typed_org, available_a, available_b, mod):
             return True, affinities, current_index
         elif light_tasks[0][1].utilizationB > 0 and light_tasks[0][1].utilizationA == 0 and current_available_b > 0:
             # schedulable by default
-            affinities[light_tasks[0[0]].tsk_id], current_index = misc.assign_affinity_task(current_index, [0, 1])
+            affinities[light_tasks[0][0].tsk_id], current_index = misc.assign_affinity_task(current_index, [0, 1])
             return True, affinities, current_index
         elif light_tasks[0][1].utilizationB > 0 and light_tasks[0][1].utilizationA > 0 and current_available_a > 0 and current_available_b > 0:
             # schedulable by default
