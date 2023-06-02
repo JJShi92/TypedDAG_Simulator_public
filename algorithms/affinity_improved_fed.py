@@ -495,6 +495,41 @@ def shared_light_newcore(light_task, partitioned_ab_org, available_cores):
 
     # it is impossible that both a/b core are empty
 
+    # only add a A core is sufficient
+    # the new task only require A core
+    if light_task[1].utilizationA > 0 and light_task[1].utilizationB == 0 and len(partitioned_a[0]) != 0:
+        new_processor = []
+        new_task = []
+        new_task.append(light_task)
+        new_task.append(light_task[0].utilization * light_task[0].period)
+        new_processor.append(new_task)
+
+        partitioned_b[0].append(new_task)
+        partitioned_a.append(new_processor)
+
+        # only use one new a core
+        # The last [-1, -1] means the task does not share with other tasks
+        # It does not use the existed cores
+        return True, [partitioned_a, partitioned_b], [1, 0], [-1, -1]
+
+    # only add a B core is sufficient
+    # the new task only require B core
+    if light_task[1].utilizationB > 0 and light_task[1].utilizationA == 0 and len(partitioned_b[0]) != 0:
+        new_processor = []
+        new_task = []
+        new_task.append(light_task)
+        new_task.append(light_task[0].utilization * light_task[0].period)
+        new_processor.append(new_task)
+
+        partitioned_a[0].append(new_task)
+
+        partitioned_b.append(new_processor)
+
+        # only use one new b core
+        # The last [-1, -1] means the task does not share with other tasks
+        # It does not use the existed cores
+        return True, [partitioned_a, partitioned_b], [0, 1], [-1, -1]
+
     # only allocate one moe a core
     if available_a > 0 and available_a >= available_b:
         temp_partition_a = copy.deepcopy(partitioned_a)
