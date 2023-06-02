@@ -165,7 +165,7 @@ def main(argv):
                     print("Try average case execution time instead of worst case execution time ...")
 
                     print("Try Han's approach with EMU partition approach ...")
-                    aff_han = han.sched_han(average_case_convertor_taskset(tasksets_pure[s], avg_ratio), average_case_convertor_typed(tasksets_typed[s], avg_ratio), processor_a, processor_b, 1)
+                    aff_han = han.sched_han(misc.average_case_convertor_taskset(tasksets_pure[s], avg_ratio), misc.average_case_convertor_typed(tasksets_typed[s], avg_ratio), processor_a, processor_b, 1)
                     if aff_han[0]:
                         affinities_han = defaultdict(int, sorted(aff_han[1].items(), key=lambda x: x[0]))
                         max_a_han, max_b_han = misc.find_max_ab_index(affinities_han)
@@ -178,7 +178,7 @@ def main(argv):
                               used_b_han)
 
                     print("Try improved federated scheduling approach ...")
-                    aff_imp = imp_fed.improved_federated_p3(tasksets_pure[s], tasksets_typed[s], processor_a,
+                    aff_imp = imp_fed.improved_federated_p3(misc.average_case_convertor_taskset(tasksets_pure[s], avg_ratio), misc.average_case_convertor_typed(tasksets_typed[s], avg_ratio), processor_a,
                                                             processor_b, rho_imp_fed)
                     if aff_imp[0]:
                         affinities_imp = defaultdict(int, sorted(aff_imp[1].items(), key=lambda x: x[0]))
@@ -285,7 +285,7 @@ def main(argv):
                         print("Try average case execution time with tolerate A and B processors instead of worst case execution time ...")
 
                         print("Try Han's approach with EMU partition approach ...")
-                        aff_han = han.sched_han(average_case_convertor_taskset(tasksets_pure[s], avg_ratio), average_case_convertor_typed(tasksets_typed[s], avg_ratio), tolerate_pa, tolerate_pb, 1)
+                        aff_han = han.sched_han(misc.average_case_convertor_taskset(tasksets_pure[s], avg_ratio), misc.average_case_convertor_typed(tasksets_typed[s], avg_ratio), tolerate_pa, tolerate_pb, 1)
                         if aff_han[0]:
                             affinities_han = defaultdict(int, sorted(aff_han[1].items(), key=lambda x: x[0]))
                             max_a_han, max_b_han = misc.find_max_ab_index(affinities_han)
@@ -298,7 +298,7 @@ def main(argv):
                                   used_b_han)
 
                         print("Try improved federated scheduling approach ...")
-                        aff_imp = imp_fed.improved_federated_p3(average_case_convertor_taskset(tasksets_pure[s], avg_ratio), average_case_convertor_typed(tasksets_typed[s], avg_ratio), tolerate_pa,
+                        aff_imp = imp_fed.improved_federated_p3(misc.average_case_convertor_taskset(tasksets_pure[s], avg_ratio), misc.average_case_convertor_typed(tasksets_typed[s], avg_ratio), tolerate_pa,
                                                                 tolerate_pb, rho_imp_fed)
                         if aff_imp[0]:
                             affinities_imp = defaultdict(int, sorted(aff_imp[1].items(), key=lambda x: x[0]))
