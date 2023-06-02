@@ -153,7 +153,7 @@ def main(argv):
                     one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
                     percent_freq) + '_' + str(
                     allow_freq) + '.npy'
-                np.save(aff_name, affinity)
+                np.save(aff_name, np.array(affinity, dtype=object))
                 print("Optimized affinity information has been saved.")
 
             # If both approaches with original WCET are infeasible
@@ -216,7 +216,7 @@ def main(argv):
                         one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
                         percent_freq) + '_' + str(
                         allow_freq) + '.npy'
-                    np.save(aff_name, affinity)
+                    np.save(aff_name, np.array(affinity, dtype=object))
                     print("Optimized affinity information with acet has been saved.")
 
 
@@ -273,7 +273,7 @@ def main(argv):
                         one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
                         percent_freq) + '_' + str(
                         allow_freq) + '.npy'
-                    np.save(aff_name, affinity)
+                    np.save(aff_name, np.array(affinity, dtype=object))
                     print("Optimized affinity information with tolerate A and B processors has been saved.")
 
 
@@ -338,7 +338,7 @@ def main(argv):
                                 one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
                                 percent_freq) + '_' + str(
                                 allow_freq) + '.npy'
-                            np.save(aff_name, affinity)
+                            np.save(aff_name, np.array(affinity, dtype=object))
                             print("Optimized affinity information with acet and tolerate A and B processors has been saved.")
 
                         else:
@@ -359,7 +359,7 @@ def main(argv):
                                 one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
                                 percent_freq) + '_' + str(
                                 allow_freq) + '.npy'
-                            np.save(aff_name, affinity)
+                            np.save(aff_name, np.array(affinity, dtype=object))
                             print("Raw affinity information with type aware global schedule has been saved.")
 
 if __name__ == "__main__":

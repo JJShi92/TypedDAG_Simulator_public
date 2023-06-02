@@ -53,7 +53,7 @@ def main(argv):
         print('Generating typed info for task sets with utilization: ', util_all[ut])
         tasksets_typed = typed.generate_tsk_type(msets, tasksets_pure, processor_a, processor_b, skewness, per_heavy, one_type_only)
         tasksets_typed_name = '../experiments/inputs/tasks_typed/tasksets_typed_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(one_type_only) + '.npy'
-        np.save(tasksets_typed_name, tasksets_typed)
+        np.save(tasksets_typed_name, np.array(tasksets_typed, dtype=object))
 
 
 if __name__ == "__main__":

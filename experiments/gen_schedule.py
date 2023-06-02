@@ -130,7 +130,7 @@ def main(argv):
                     percent_freq) + '_' + str(
                     allow_freq) + '.npy'
 
-                np.save(sched_wcet_name, schedule_wcet)
+                np.save(sched_wcet_name, np.array(schedule_wcet, dtype=object))
             else:
                 print("The orginal affinity allocation with WCET does not exist, try ACET case")
 
@@ -162,7 +162,7 @@ def main(argv):
                         percent_freq) + '_' + str(
                         allow_freq) + '.npy'
 
-                    np.save(sched_acet_name, schedule_acet)
+                    np.save(sched_acet_name, np.array(schedule_acet, dtype=object))
                 else:
                     print("The affinity allocation with ACET does not exist")
 
@@ -196,7 +196,7 @@ def main(argv):
                         percent_freq) + '_' + str(
                         allow_freq) + '.npy'
 
-                    np.save(sched_tol_wcet_name, schedule_tol_wcet)
+                    np.save(sched_tol_wcet_name, np.array(schedule_tol_wcet, dtype=object))
                 else:
                     print("The affinity allocation with maximum number of required processor A and processor B does not exist")
 
@@ -237,7 +237,7 @@ def main(argv):
                             one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
                             percent_freq) + '_' + str(
                             allow_freq) + '.npy'
-                        np.save(sched_tol_acet_name, schedule_tol_acet)
+                        np.save(sched_tol_acet_name, np.array(schedule_tol_acet, dtype=object))
 
                     else:
                         aff_raw_name = '../experiments/outputs/affinity_allocation/aff_raw_wcet_' + str(
@@ -275,7 +275,7 @@ def main(argv):
                                 one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
                                 percent_freq) + '_' + str(
                                 allow_freq) + '.npy'
-                            np.save(sched_raw_name, schedule_raw)
+                            np.save(sched_raw_name, np.array(schedule_raw, dtype=object))
 
 
                         else:

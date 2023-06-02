@@ -49,7 +49,7 @@ def main(argv):
         tasksets_name = '../experiments/inputs/tasks_pure/tasksets_pure_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '.npy'
         tasksets = gen.generate_tsk_dict(msets, ntasks, num_nodes, processor_a, processor_b, pc_prob, utilization, sparse, scale, preempt_times, main_mem_time)
 
-        np.save(tasksets_name, tasksets)
+        np.save(tasksets_name, np.array(tasksets, dtype=object))
 
 
 if __name__ == "__main__":

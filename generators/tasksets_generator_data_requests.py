@@ -54,7 +54,7 @@ def main(argv):
         print('Generating data requests for task sets with utilization: ', util_all[ut])
         tasksets_data = data_req.generated_requested_data(msets, tasksets_pure, num_data_all, num_freq_data, percent_freq, allow_freq)
         tasksets_data_name = '../experiments/inputs/tasks_data_request/tasksets_data_req_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(allow_freq) + '.npy'
-        np.save(tasksets_data_name, tasksets_data)
+        np.save(tasksets_data_name, np.array(tasksets_data, dtype=object))
 
 
 if __name__ == "__main__":
