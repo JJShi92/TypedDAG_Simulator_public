@@ -11,6 +11,7 @@ from algorithms import sched_sim
 from generators import data_requests
 from generators import generator_pure_dict
 from generators import typed_core_allocation
+from generators import read_configuration as readf
 
 def main(argv):
     # default json configuration file name
