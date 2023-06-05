@@ -39,6 +39,8 @@ def main(argv):
         elif opt in ("-m", "--affmod"):
             aff_mod = int(arg)
 
+    avg_or_tolerate = True
+
     print('Read configurations . . .')
     conf = readf.read_conf(conf_file_name)
     msets = conf['mset'][0]
@@ -130,6 +132,7 @@ def main(argv):
                 print("Successfully pass the schedulability test, require core number: ", used_a_imp, used_b_imp)
 
             if aff_han[0] or aff_imp[0]:
+                avg_or_tolerate = False
                 affinity = []
                 if aff_han[0] and not aff_imp[0]:
                     affinity.append(affinities_han)
@@ -138,7 +141,7 @@ def main(argv):
                     affinity.append(affinities_imp)
                     affinity.append([used_a_imp, used_b_imp])
                 else:
-                    if used_a_han + used_b_han <= used_a_imp + used_b_imp:
+                    if used_a_han + used_b_han < used_a_imp + used_b_imp:
                         affinity.append(affinities_han)
                         affinity.append([used_a_han, used_b_han])
                     else:
@@ -147,7 +150,7 @@ def main(argv):
 
                 aff_name = '../experiments/outputs/affinity_allocation/aff_wcet_' + str(msets) + '_' + str(
                     ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-                    pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(
+                    pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(
                     preempt_times) + '_m' + str(
                     main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
                     one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
@@ -191,33 +194,34 @@ def main(argv):
                         print("Successfully pass the schedulability test, require core number: ", used_a_imp,
                               used_b_imp)
 
-                if aff_han[0] or aff_imp[0]:
-                    affinity = []
-                    if aff_han[0] and not aff_imp[0]:
-                        affinity.append(affinities_han)
-                        affinity.append([used_a_han, used_b_han])
-                    elif not aff_han[0] and aff_imp[0]:
-                        affinity.append(affinities_imp)
-                        affinity.append([used_a_imp, used_b_imp])
-                    else:
-                        if used_a_han + used_b_han <= used_a_imp + used_b_imp:
+                    if aff_han[0] or aff_imp[0]:
+                        avg_or_tolerate = False
+                        affinity = []
+                        if aff_han[0] and not aff_imp[0]:
                             affinity.append(affinities_han)
                             affinity.append([used_a_han, used_b_han])
-                        else:
+                        elif not aff_han[0] and aff_imp[0]:
                             affinity.append(affinities_imp)
                             affinity.append([used_a_imp, used_b_imp])
+                        else:
+                            if used_a_han + used_b_han <= used_a_imp + used_b_imp:
+                                affinity.append(affinities_han)
+                                affinity.append([used_a_han, used_b_han])
+                            else:
+                                affinity.append(affinities_imp)
+                                affinity.append([used_a_imp, used_b_imp])
 
-                    aff_name = '../experiments/outputs/affinity_allocation/aff_acet_' + str(msets) + '_' + str(
-                        ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-                        pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
-                        int(math.log10(scale))) + '_' + str(
-                        preempt_times) + '_m' + str(
-                        main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                        one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                        percent_freq) + '_' + str(
-                        allow_freq) + '.npy'
-                    np.save(aff_name, np.array(affinity, dtype=object))
-                    print("Optimized affinity information with acet has been saved.")
+                        aff_name = '../experiments/outputs/affinity_allocation/aff_acet_' + str(msets) + '_' + str(
+                            ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
+                            pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
+                            int(math.log10(scale))) + '_' + str(
+                            preempt_times) + '_m' + str(
+                            main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
+                            one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
+                            percent_freq) + '_' + str(
+                            allow_freq) + '.npy'
+                        np.save(aff_name, np.array(affinity, dtype=object))
+                        print("Optimized affinity information with acet has been saved.")
 
 
                 # Try to find the maximum number of required processor A and processor B
@@ -249,6 +253,7 @@ def main(argv):
                     print("Successfully pass the schedulability test, require core number: ", used_a_imp, used_b_imp)
 
                 if aff_han[0] or aff_imp[0]:
+                    avg_or_tolerate = False
                     affinity = []
                     if aff_han[0] and not aff_imp[0]:
                         affinity.append(affinities_han)
@@ -266,7 +271,7 @@ def main(argv):
 
                     aff_name = '../experiments/outputs/affinity_allocation/aff_tolerate_wcet_' + str(msets) + '_' + str(
                         ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-                        pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                        pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                         int(math.log10(scale))) + '_' + str(
                         preempt_times) + '_m' + str(
                         main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
@@ -278,7 +283,7 @@ def main(argv):
 
 
                 # If both approaches with original WCET and maximum tolerate A and B processors are still infeasible
-                else:
+                if avg_or_tolerate:
                     print("Two approaches with maximum tolerate A and B processors are still both infeasible")
                     # Try average case execution time with tolerate A and B processors
                     if try_avg_case:
@@ -331,7 +336,7 @@ def main(argv):
                                 msets) + '_' + str(
                                 ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(
                                 processor_b) + '_q' + str(
-                                pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                                pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                                 int(math.log10(scale))) + '_' + str(
                                 preempt_times) + '_m' + str(
                                 main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
@@ -352,7 +357,7 @@ def main(argv):
                                 msets) + '_' + str(
                                 ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(
                                 processor_b) + '_q' + str(
-                                pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                                pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                                 int(math.log10(scale))) + '_' + str(
                                 preempt_times) + '_m' + str(
                                 main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(

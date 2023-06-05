@@ -75,6 +75,7 @@ def main(argv):
     rho_greedy = conf['rho_greedy'][0]
     rho_imp_fed = conf['rho_imp_fed'][0]
 
+    util_all = [30]
 
     for ut in range(len(util_all)):
     #for ut in range(1):
@@ -102,11 +103,11 @@ def main(argv):
 
         for s in range(msets):
 
-            print("Try to find the orginal affinity allocation with WCET ...")
+            print("Try to find the original affinity allocation with WCET ...")
 
             aff_wcet_name = '../experiments/outputs/affinity_allocation/aff_wcet_' + str(msets) + '_' + str(
                     ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-                    pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(
+                    pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(
                     preempt_times) + '_m' + str(
                     main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
                     one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
@@ -122,7 +123,7 @@ def main(argv):
 
                 sched_wcet_name = '../experiments/outputs/schedule/sched_wcet_' + str(msets) + '_' + str(
                     ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-                    pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                    pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                     int(math.log10(scale))) + '_' + str(
                     preempt_times) + '_m' + str(
                     main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
@@ -132,11 +133,11 @@ def main(argv):
 
                 np.save(sched_wcet_name, np.array(schedule_wcet, dtype=object))
             else:
-                print("The orginal affinity allocation with WCET does not exist, try ACET case")
+                print("The original affinity allocation with WCET does not exist, try ACET case")
 
                 aff_acet_name = '../experiments/outputs/affinity_allocation/aff_acet_' + str(msets) + '_' + str(
                         ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-                        pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                        pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                         int(math.log10(scale))) + '_' + str(
                         preempt_times) + '_m' + str(
                         main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
@@ -154,7 +155,7 @@ def main(argv):
 
                     sched_acet_name = '../experiments/outputs/schedule/sched_acet_' + str(msets) + '_' + str(
                         ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-                        pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                        pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                         int(math.log10(scale))) + '_' + str(
                         preempt_times) + '_m' + str(
                         main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
@@ -188,7 +189,7 @@ def main(argv):
                     sched_tol_wcet_name = '../experiments/outputs/schedule/sched_tol_wcet_' + str(
                         msets) + '_' + str(
                         ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-                        pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                        pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                         int(math.log10(scale))) + '_' + str(
                         preempt_times) + '_m' + str(
                         main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
@@ -208,7 +209,7 @@ def main(argv):
                                 msets) + '_' + str(
                                 ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(
                                 processor_b) + '_q' + str(
-                                pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                                pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                                 int(math.log10(scale))) + '_' + str(
                                 preempt_times) + '_m' + str(
                                 main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
@@ -230,7 +231,7 @@ def main(argv):
                             msets) + '_' + str(
                             ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(
                             processor_b) + '_q' + str(
-                            pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                            pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                             int(math.log10(scale))) + '_' + str(
                             preempt_times) + '_m' + str(
                             main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
@@ -244,7 +245,7 @@ def main(argv):
                             msets) + '_' + str(
                             ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(
                             processor_b) + '_q' + str(
-                            pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                            pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                             int(math.log10(scale))) + '_' + str(
                             preempt_times) + '_m' + str(
                             main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
@@ -268,7 +269,7 @@ def main(argv):
                                 msets) + '_' + str(
                                 ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(
                                 processor_b) + '_q' + str(
-                                pc_prob) + '_u' + str(utili) + str(s) + '_s' + str(sparse) + '_' + str(
+                                pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
                                 int(math.log10(scale))) + '_' + str(
                                 preempt_times) + '_m' + str(
                                 main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
