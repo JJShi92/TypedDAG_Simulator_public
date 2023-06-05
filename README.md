@@ -71,11 +71,12 @@ Once new task sets are generated with the same configuration file, the affinity_
 
 In the original mode, we only try Han's approach with EMU partition approach and our improved federated approach due to the better performance.
 The Greedy partition approach for Han's approach and Greedy federated approach in [^2] are also supported but not applied in the `gen_affinity.py`.
-<br />
+
 The final affinity will be selected according to the minial total required number of cores. 
-If both of them are not feasible with the given WCET, we will try average case execution time (ACET) with the average ratio, minimal ratio and standard deviation.
-And/or reset the upper bound of available number of processors of both types (to the tolerate bound) to check how many cores are needed with WCET and with ACET if WCET is still infeasible.
-If non of aforementioned approaches is feasible, a raw affinity is assigned, i.e., type-aware global schedule, where all the cores of one type can be applied to execute any task if the corresponding node has the same typed assignment.
+If both of them are not feasible with the given WCET, we will try:
+- Average case execution time (ACET) with the average ratio, minimal ratio and standard deviation.
+- And/or reset the upper bound of available number of processors of both types (to the tolerate bound) to check how many cores are needed with WCET and with ACET if WCET is still infeasible.
+- If non of aforementioned approaches is feasible, a raw affinity is assigned, i.e., type-aware global schedule, where all the cores of one type can be applied to execute any task if the corresponding node has the same typed assignment.
 
 ## Figures
 
