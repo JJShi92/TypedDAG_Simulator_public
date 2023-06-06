@@ -46,8 +46,11 @@ The configuration file contains the following parameters:
 
 
 After configure all of these aforementioned parameters in the file `configuration_generator.py`
-<br \>
+<br />
 Run `./generate_tasksets.sh` to generate all the needed information for task sets.
+- `/experiments/inputs/tasks_pure` stores the pure task sets.
+- `/experiments/inputs/tasks_typed` stores the typed allocation for each vertex from all tasks.
+- `/experiments/inputs/tasks_data_request` stores the requested data addresses of each vertex from all tasks
 
 ## Algorithms
 Inside the `algorithms` folder, all these algorithms related files are included as follows:
@@ -59,22 +62,26 @@ Inside the `algorithms` folder, all these algorithms related files are included 
 
 ## Experiments
 In the `experiments` folder, we provide the tools to 
-- `gen_affinity.py`: Generate the affinity of a given task set. 
-- `gen_schedule.py`: Generate the schedule of a given task set with the generated optimizaed affinity.
+- `gen_affinity.py`: Generate the affinity of a given task set in `/experiments/outputs/affinity_allocation/`. 
+- `gen_schedule.py`: Generate the schedule of a given task set with the generated optimizaed affinity in `/experiments/outputs/schedule`.
 - `draw_schedule.py`: The script to draw the Gantt chart of a generated schedule.
+
+### Please Note: 
+Once new task sets are generated with the same configuration file, the affinity_allocation information from the previous task sets (with the same configurations) has to be cleaned.
 
 In the original mode, we only try Han's approach with EMU partition approach and our improved federated approach due to the better performance.
 The Greedy partition approach for Han's approach and Greedy federated approach in [^2] are also supported but not applied in the `gen_affinity.py`.
-<br />
+
 The final affinity will be selected according to the minial total required number of cores. 
-If both of them are not feasible with the given WCET, we will try average case execution time (ACET) with the average ratio, minimal ratio and standard deviation.
-And/or reset the upper bound of available number of processors of both types (to the tolerate bound) to check how many cores are needed with WCET and with ACET if WCET is still infeasible.
-If non of aforementioned approaches is feasible, a raw affinity is assigned, i.e., type-aware global schedule, where all the cores of one type can be applied to execute any task if the corresponding node has the same typed assignment.
+If both of them are not feasible with the given WCET, we will try:
+- Average case execution time (ACET) with the average ratio, minimal ratio and standard deviation.
+- And/or reset the upper bound of available number of processors of both types (to the tolerate bound) to check how many cores are needed with WCET and with ACET if WCET is still infeasible.
+- If non of aforementioned approaches is feasible, a raw affinity is assigned, i.e., type-aware global schedule, where all the cores of one type can be applied to execute any task if the corresponding node has the same typed assignment.
 
 ## Figures
 
 
 ## References
 [^1]: https://pypi.org/project/drs/ 
-[^2]: C. Lin, J. Shi, N. Ueter, M. Günzel, J. Reineke, and J. Chen. Type-aware federated scheduling for typed DAG tasks on heterogeneous multicore platforms. IEEE Trans. Computers, 72(5):1286-1300, 2023.
+[^2]: C. Lin, J. Shi, N. Ueter, M. Günzel, J. Reineke, and J. Chen. <a href="https://ieeexplore.ieee.org/document/9869701" target="_blank">Type-aware federated scheduling for typed DAG tasks on heterogeneous multicore platforms.</a> IEEE Trans. Computers, 72(5):1286-1300, 2023.
 [^3]: M. Han, T. Zhang, Y. Lin, and Q. Deng. Federated scheduling for typed DAG tasks scheduling analysis on heterogeneous multi-cores. J. Syst. Archit., 112:101870, 2021.
