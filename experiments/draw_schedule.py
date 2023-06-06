@@ -21,15 +21,16 @@ def main(argv):
     set_id = 0
     time_bound = 200
     aff_mod = "raw"
-
+    sched_file_name = None
+    utilization = None
     try:
-        opts, args = getopt.getopt(argv, "hi:s:m:t:", ["conf_file_name", "set_id", "aff_mod", "time_bound"])
+        opts, args = getopt.getopt(argv, "hi:s:m:t:f:u:", ["conf_file_name", "set_id", "aff_mod", "time_bound", "sched_file_name", "utilization"])
     except getopt.GetoptError:
-        print('read_configuration.py -i <the JSON configuration file name> -s <set id> -m <aff mod> -t <time bound>')
+        print('read_configuration.py -i <the JSON configuration file name> -s <set id> -m <aff mod> -t <time bound> -f <sched_file_name> -u <utilization>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('read_configuration.py -i <the JSON configuration file name> -s <set id> -m <aff mod> -t <time bound>')
+            print('read_configuration.py -i <the JSON configuration file name> -s <set id> -m <aff mod> -t <time bound> -f <sched_file_name> -u <utilization>')
             sys.exit()
         elif opt in ("-i", "--conffname"):
             conf_file_name = str(arg)
@@ -39,6 +40,10 @@ def main(argv):
             aff_mod = str(arg)
         elif opt in ("-t", "--tbound"):
             time_bound = int(arg)
+        elif opt in ("-f", "--sfname"):
+            sched_file_name = str(arg)
+        elif opt in ("-u", "--utilization"):
+            utilization = int(arg)
 
     print('Read configurations . . .')
     conf = readf.read_conf(conf_file_name)
@@ -76,78 +81,88 @@ def main(argv):
     rho_greedy = conf['rho_greedy'][0]
     rho_imp_fed = conf['rho_imp_fed'][0]
 
-    ut = 0
-    print("Reading the schedule information ...")
-    utili = float(util_all[ut] / 100)
-    # original task set
-    sched_wcet_name = '../experiments/outputs/schedule/sched_wcet_' + str(msets) + '_' + str(
-                    ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-                    pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
-                    int(math.log10(scale))) + '_' + str(
-                    preempt_times) + '_m' + str(
-                    main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                    one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                    percent_freq) + '_' + str(
-                    allow_freq) + '.npy'
-
-    if os.path.exists(sched_name):
-        sched_results = np.load(sched_wcet_name, allow_pickle=True)
-    else:
-        sched_acet_name = '../experiments/outputs/schedule/sched_acet_' + str(msets) + '_' + str(
-            ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-            pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
-            int(math.log10(scale))) + '_' + str(
-            preempt_times) + '_m' + str(
-            main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-            one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-            percent_freq) + '_' + str(
-            allow_freq) + '.npy'
-        if os.path.exists(sched_name):
-            sched_results = np.load(sched_acet_name, allow_pickle=True)
+    if sched_file_name:
+        if os.path.exists(sched_file_name):
+            sched_results = np.load(sched_file_name, allow_pickle=True)
         else:
-            sched_tol_wcet_name = '../experiments/outputs/schedule/sched_tol_wcet_' + str(
-                msets) + '_' + str(
-                ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-                pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
-                int(math.log10(scale))) + '_' + str(
-                preempt_times) + '_m' + str(
-                main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                percent_freq) + '_' + str(
-                allow_freq) + '.npy'
-            if os.path.exists(sched_tol_wcet_name):
-                sched_results = np.load(sched_tol_wcet_name, allow_pickle=True)
-            else:
-                sched_tol_acet_name = '../experiments/outputs/schedule/sched_tol_acet_' + str(
-                    msets) + '_' + str(
-                    ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(
-                    processor_b) + '_q' + str(
-                    pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
-                    int(math.log10(scale))) + '_' + str(
-                    preempt_times) + '_m' + str(
-                    main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                    one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                    percent_freq) + '_' + str(
-                    allow_freq) + '.npy'
-                if os.path.exists(sched_tol_acet_name):
-                    sched_results = np.load(sched_tol_acet_name, allow_pickle=True)
-                else:
-                    sched_raw_name = '../experiments/outputs/schedule/sched_raw_' + str(
-                        msets) + '_' + str(
-                        ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(
-                        processor_b) + '_q' + str(
-                        pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(
+            print("The input schedule file name is incorrect, please check!")
+            return
+    else:
+        print("Reading the schedule information ...")
+        if utilization:
+            utili = float(utilization / 100)
+        else:
+            ut = 0
+            utili = float(util_all[ut] / 100)
+        # original task set
+        sched_wcet_name = '../experiments/outputs/schedule/sched_wcet_' + str(msets) + '_' + str(
+                        ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
+                        pc_prob) + '_u' + str(utili) + '_' + str(set_id) + '_s' + str(sparse) + '_' + str(
                         int(math.log10(scale))) + '_' + str(
                         preempt_times) + '_m' + str(
                         main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
                         one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
                         percent_freq) + '_' + str(
                         allow_freq) + '.npy'
-                    if os.path.exists(sched_raw_name):
-                        sched_results = np.load(sched_raw_name, allow_pickle=True)
+
+        if os.path.exists(sched_name):
+            sched_results = np.load(sched_wcet_name, allow_pickle=True)
+        else:
+            sched_acet_name = '../experiments/outputs/schedule/sched_acet_' + str(msets) + '_' + str(
+                ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
+                pc_prob) + '_u' + str(utili) + '_' + str(set_id) + '_s' + str(sparse) + '_' + str(
+                int(math.log10(scale))) + '_' + str(
+                preempt_times) + '_m' + str(
+                main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
+                one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
+                percent_freq) + '_' + str(
+                allow_freq) + '.npy'
+            if os.path.exists(sched_name):
+                sched_results = np.load(sched_acet_name, allow_pickle=True)
+            else:
+                sched_tol_wcet_name = '../experiments/outputs/schedule/sched_tol_wcet_' + str(
+                    msets) + '_' + str(
+                    ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
+                    pc_prob) + '_u' + str(utili) + '_' + str(set_id) + '_s' + str(sparse) + '_' + str(
+                    int(math.log10(scale))) + '_' + str(
+                    preempt_times) + '_m' + str(
+                    main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
+                    one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
+                    percent_freq) + '_' + str(
+                    allow_freq) + '.npy'
+                if os.path.exists(sched_tol_wcet_name):
+                    sched_results = np.load(sched_tol_wcet_name, allow_pickle=True)
+                else:
+                    sched_tol_acet_name = '../experiments/outputs/schedule/sched_tol_acet_' + str(
+                        msets) + '_' + str(
+                        ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(
+                        processor_b) + '_q' + str(
+                        pc_prob) + '_u' + str(utili) + '_' + str(set_id) + '_s' + str(sparse) + '_' + str(
+                        int(math.log10(scale))) + '_' + str(
+                        preempt_times) + '_m' + str(
+                        main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
+                        one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
+                        percent_freq) + '_' + str(
+                        allow_freq) + '.npy'
+                    if os.path.exists(sched_tol_acet_name):
+                        sched_results = np.load(sched_tol_acet_name, allow_pickle=True)
                     else:
-                        print("The schedule does not exist, please check!")
-                        return
+                        sched_raw_name = '../experiments/outputs/schedule/sched_raw_' + str(
+                            msets) + '_' + str(
+                            ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(
+                            processor_b) + '_q' + str(
+                            pc_prob) + '_u' + str(utili) + '_' + str(set_id) + '_s' + str(sparse) + '_' + str(
+                            int(math.log10(scale))) + '_' + str(
+                            preempt_times) + '_m' + str(
+                            main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
+                            one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
+                            percent_freq) + '_' + str(
+                            allow_freq) + '.npy'
+                        if os.path.exists(sched_raw_name):
+                            sched_results = np.load(sched_raw_name, allow_pickle=True)
+                        else:
+                            print("The schedule does not exist, please check!")
+                            return
 
     colors = [
         'b',  # Blue
