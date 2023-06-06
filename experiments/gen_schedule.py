@@ -255,7 +255,7 @@ def main(argv):
                         if os.path.exists(aff_raw_name):
                             print("Only have the raw affinities by using type aware global schedule...")
                             affinities, processors = np.load(aff_raw_name, allow_pickle=True)
-                            schedule_tol_acet = sched_sim.typed_dag_schedule_gen(tasksets_pure[s], tasksets_typed[s],
+                            schedule_raw = sched_sim.typed_dag_schedule_gen(tasksets_pure[s], tasksets_typed[s],
                                                                        tasksets_data[s],
                                                                        affinities, processors[0], processors[1],
                                                                        max_time,
