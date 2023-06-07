@@ -178,14 +178,41 @@ def main(argv):
         'darkcyan',  # Dark Cyan
         'darkmagenta',  # Dark Magenta
         'darkgoldenrod',  # Dark Yellow
+        'darkkhaki',
+        'darksalmon',
+        'darkseagreen',
+        'darkturquoise',
+        'darkorchid',
+        'darkviolet',
+        'pink',
         'lightblue',  # Light Blue
         'lightgreen',  # Light Green
         'lightcoral',  # Light Red
         'lightcyan',  # Light Cyan
         'lightpink',  # Light Magenta
         'lightyellow'  # Light Yellow
+        'lightgray',
+        'coral',
+        'olivedrab',
+        'yellowgreen',
+        'forestgreen',
+        'limegreen',
+        'mediumspringgreen',
+        'lightseagreen',
+        'darkslategrey',
+        'powderblue',
+        'dodgerblue',
+        'slategray',
+        'royalblue',
+        'navy',
+        'mediumslateblue',
+        'rebeccapurple',
+        'plum',
+        'deeppink',
+        'crimson'
     ]
 
+    '''
     colors = [
     "blue", "green", "red", "cyan", "magenta", "yellow", "black", "white", "gray", "darkblue",
     "darkgreen", "darkred", "darkcyan", "darkmagenta", "darkyellow", "darkgray", "lightblue",
@@ -195,6 +222,7 @@ def main(argv):
     "mediumorchid", "khaki", "slategray", "deepskyblue", "mediumaquamarine", "rosybrown",
     "lightsteelblue", "palegreen", "darkorange"
     ]
+    '''
 
     fig, ax = plt.subplots()
 
