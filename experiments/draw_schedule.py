@@ -105,7 +105,7 @@ def main(argv):
                         percent_freq) + '_' + str(
                         allow_freq) + '.npy'
 
-        if os.path.exists(sched_name):
+        if os.path.exists(sched_wcet_name):
             sched_results = np.load(sched_wcet_name, allow_pickle=True)
         else:
             sched_acet_name = '../experiments/outputs/schedule/sched_acet_' + str(msets) + '_' + str(
@@ -117,7 +117,7 @@ def main(argv):
                 one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
                 percent_freq) + '_' + str(
                 allow_freq) + '.npy'
-            if os.path.exists(sched_name):
+            if os.path.exists(sched_acet_name):
                 sched_results = np.load(sched_acet_name, allow_pickle=True)
             else:
                 sched_tol_wcet_name = '../experiments/outputs/schedule/sched_tol_wcet_' + str(
