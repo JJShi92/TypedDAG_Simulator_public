@@ -22,7 +22,7 @@ def main(argv):
         if opt == '-h':
             print('read_configuration.py -i <the JSON configuration file name>')
             sys.exit()
-        elif opt in ("-o", "--conffname"):
+        elif opt in ("-i", "--conffname"):
             conf_file_name = str(arg)
 
     print('Read configurations . . .')
