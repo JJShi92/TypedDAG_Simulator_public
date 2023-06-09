@@ -102,6 +102,7 @@ def main(argv):
 
 
         for s in range(msets):
+            print("Generate the schedule for set: ", s)
 
             print("Try to find the original affinity allocation with WCET ...")
 

@@ -104,7 +104,7 @@ def main(argv):
 
 
         for s in range(msets):
-            print("Finding affinities ...")
+            print("Finding affinities for set: ", s)
 
             # First try these approaches with original WCET
             print("Try Han's approach with EMU partition approach ...")
