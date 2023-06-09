@@ -20,7 +20,7 @@ The configuration file contains the following parameters:
 | aprocessor       | Number of processor A                                                                                        |
 | bprocessor       | Number of processor B                                                                                        |
 | pc_prob          | Lower and upper bounds of the probability of two vertices having an edge. The real probability is in the range `[pc_prob_l, pc_prob_h]` |
-| utilization      | Total utilization for a set of tasks                                                                          |
+| utilization      | Average utilization per core for a set of tasks                                                                |
 | scale            | Scale to keep all the parameters as integers                                                                  |
 | skewness         | Controls the skewness of the skewed tasks                                                                     |
 | per_heavy        | Percentage of heavy^a or heavy^b tasks (e.g., 0%, 25%, 50%, 75%, and 100%)                                   |
