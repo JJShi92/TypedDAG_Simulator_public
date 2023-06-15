@@ -1,0 +1,61 @@
+{
+    "tasks": [
+        {
+            "task_id": 1,
+            "period": 100,
+            "deadline": 50,
+            "vertices": [
+                {
+                    "vertex_id": 1,
+                    "execution_time": 10,
+                    "successors": [
+                        2
+                    ],
+                    "requested_data_address": "0x14",
+                    "core_type": 1
+                },
+                {
+                    "vertex_id": 2,
+                    "execution_time": 15,
+                    "successors": [
+                        3
+                    ],
+                    "requested_data_address": "0x14",
+                    "core_type": 1
+                },
+                {
+                    "vertex_id": 3,
+                    "execution_time": 20,
+                    "successors": [],
+                    "requested_data_address": "0x14",
+                    "core_type": 1
+                }
+            ]
+        },
+        {
+            "task_id": 2,
+            "period": 200,
+            "deadline": 80,
+            "vertices": [
+                {
+                    "vertex_id": 1,
+                    "execution_time": 12,
+                    "successors": [
+                        2
+                    ],
+                    "requested_data_address": "0x14",
+                    "core_type": 1
+                },
+                {
+                    "vertex_id": 2,
+                    "execution_time": 8,
+                    "successors": [
+                        1
+                    ],
+                    "requested_data_address": "0x14",
+                    "core_type": 2
+                }
+            ]
+        }
+    ]
+}
