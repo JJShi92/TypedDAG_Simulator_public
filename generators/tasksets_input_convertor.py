@@ -215,7 +215,7 @@ def main(argv):
                 # typed
                 type_temp = Type(num_nodes)
 
-                tsk_temp.tsk_id = data_task["task_id"]
+                tsk_temp.tsk_id = int(j)
                 tsk_temp.period = data_task["period"] * scale
                 tsk_temp.deadline = data_task["deadline"] * scale
 
