@@ -49,9 +49,7 @@
                 {
                     "vertex_id": 2,
                     "execution_time": 8,
-                    "successors": [
-                        1
-                    ],
+                    "successors": [],
                     "requested_data_address": "0x14",
                     "core_type": 2
                 }
