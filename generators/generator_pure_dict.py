@@ -126,7 +126,7 @@ def calculate_deadlines(graph_org: Dict[int, List[int]], weights_org: List[int],
 def generate_tsk_dict(msets, ntasks, nnodes, processor_a, processor_b, pc_prob, utilization, sparse, scale, preempt_times, main_mem_time):
     tasksets = []
     periods_all = [1, 2, 5, 10, 20, 50, 100, 200, 1000]
-    num_tasks = 10
+    # num_tasks = 10
     for i in range(msets):
         taskset = []
         # generate the number of tasks
