@@ -138,7 +138,7 @@ def generate_tsk_dict(msets, ntasks, nnodes, processor_a, processor_b, pc_prob, 
             if sparse == 2:
                 num_tasks = random.randint(0.25 * (processor_a + processor_b), (processor_a + processor_b))
         else:
-            num_tasks = num_tasks
+            num_tasks = ntasks
 
         # generate the period of each task
         periods = []
