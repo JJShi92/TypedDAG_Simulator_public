@@ -76,7 +76,7 @@ def sched_heavy_a(task_new, tasks_hp, processor_a):
 def sched_heavy_b(task_new, tasks_hp, processor_b):
     if processor_b <= 0:
         return False
-    constant_cs = task_new[1].utilizationA * task_new[0].period + suspension_a(task_new[0], processor_b)
+    constant_cs = task_new[1].utilizationA * task_new[0].period + suspension_a(task_new, processor_b)
     # the first task on processor A
     if len(tasks_hp) == 0:
         return constant_cs
@@ -273,7 +273,7 @@ def greedy_federated_p(task_set, typed_org, rho, processor_a, processor_b):
 
         # check if the task only require one type of processor
         # only require processor A:
-        if task_set[i][1].utilizationB == 0 and task_set[i][1].utilizationA > 1:
+        if type_info[i].utilizationB == 0 and type_info[i].utilizationA > 1:
             if available_a > 0:
                 used_a = only_processor_a([tasks[i], type_info[i]], available_a)
             else:
@@ -285,7 +285,7 @@ def greedy_federated_p(task_set, typed_org, rho, processor_a, processor_b):
                 return False, affinities, [-1, 0]
 
         # only require processor B:
-        if task_set[i][1].utilizationA == 0 and task_set[i][1].utilizationB > 1:
+        if type_info[i].utilizationA == 0 and type_info[i].utilizationB > 1:
             if available_b > 0:
                 used_b = only_processor_b([tasks[i], type_info[i]], available_b)
             else:
@@ -895,7 +895,7 @@ def improved_federated_p3(task_set_org, typed_org, processor_a, processor_b, rho
                 else:
                     partitioned_b = copy.deepcopy(temp_heavy_a[0])
                     available_a = available_a - temp_heavy_a[1][1]
-                    affinities[task_set[i][0].tsk_id], current_index = misc.assign_affinity_mix_heavy_task(current_index, [temp_heavy_a[1][1], shared_cores_index[1][temp_heavy_a[1][1]]], 0)
+                    affinities[task_set[i][0].tsk_id], current_index = misc.assign_affinity_mix_heavy_task(current_index, [temp_heavy_a[1][1], shared_cores_index[1][temp_heavy_a[1][0]]], 0)
             else:
                 temp_heavy_a = exclusive_heavy_a(task_set[i])
                 if temp_heavy_a:
