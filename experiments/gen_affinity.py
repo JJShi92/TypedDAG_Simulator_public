@@ -34,7 +34,7 @@ def main(argv):
         if opt == '-h':
             print('read_configuration.py -i <the JSON configuration file name> -m <affinity definition mod>')
             sys.exit()
-        elif opt in ("-o", "--conffname"):
+        elif opt in ("-i", "--conffname"):
             conf_file_name = str(arg)
         elif opt in ("-m", "--affmod"):
             aff_mod = int(arg)
