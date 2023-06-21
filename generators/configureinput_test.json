@@ -1,0 +1,97 @@
+{
+    "mset": [
+        1
+    ],
+    "ntasks": [
+        2
+    ],
+    "nnodes": [
+        50,
+        100
+    ],
+    "scale": [
+        1000000
+    ],
+    "aprocessor": [
+        16
+    ],
+    "bprocessor": [
+        4
+    ],
+    "pr_prob": [
+        0.2,
+        0.7
+    ],
+    "utilization": [
+        80
+    ],
+    "preempt_times": [
+        4
+    ],
+    "sparse": [
+        0
+    ],
+    "skewness": [
+        0
+    ],
+    "per_heavy": [
+        2
+    ],
+    "one_type_only": [
+        1
+    ],
+    "num_data_all": [
+        100
+    ],
+    "num_freq_data": [
+        20
+    ],
+    "percent_freq": [
+        0.1
+    ],
+    "allow_freq": [
+        0
+    ],
+    "main_mem_size": [
+        10000
+    ],
+    "main_mem_time": [
+        100
+    ],
+    "fast_mem_size": [
+        1000
+    ],
+    "fast_mem_time": [
+        10
+    ],
+    "l1_cache_size": [
+        100
+    ],
+    "l1_cache_time": [
+        1
+    ],
+    "try_avg_case": [
+        true
+    ],
+    "avg_ratio": [
+        0.5
+    ],
+    "min_ratio": [
+        0.1
+    ],
+    "std_dev": [
+        0.3
+    ],
+    "tolerate_pa": [
+        20
+    ],
+    "tolerate_pb": [
+        12
+    ],
+    "rho_greedy": [
+        0.5
+    ],
+    "rho_imp_fed": [
+        0.13793103448275862
+    ]
+}

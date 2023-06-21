@@ -15,58 +15,12 @@ import data_requests as data_req
 import typed_core_allocation as typed
 import read_configuration as readf
 
-
-class Graph:
-    def __init__(self, vertices):
-        self.V = vertices  # No. of vertices
-        self.tsk_id = int # task id
-        self.graph = defaultdict(list)  # edges
-        self.weights = List[int]  # execution times
-        self.priority = int # priority of the task
-        self.priorities = List[int]  # priorities of each vertex
-        self.deadlines = List[int]  # deadlines of each vertex
-        self.utilization = float  # utilization of the task
-        self.utilizations = List[float]  # utilizations of all vertices
-        self.predecessors = defaultdict(list) # predecessors of each vertex
-        self.period = int  # period of the task
-        self.deadline = int  # deadline of the task
-        self.affinity = defaultdict(list)  # affinity of each vertex
-        self.cp = int  # length of the critical path
-
-    # function to add an edge to graph
-    def addEdge(self, u, v):
-        self.graph[u].append(v)
-
-    def __getitem__(self, item):
-        return self.graph.__getitem__(item)
-
-    def __setitem__(self, key, value):
-        self.graph.__setitem__(key, value)
-
-
-# The dictionary of requested data of each task
-class ReqData:
-    def __init__(self, vertices):
-        self.V = vertices  # No. of vertices
-        self.req_data = defaultdict(hex)  # the requested data for each vertex
-
-
-class Type:
-    def __init__(self, vertices):
-        self.V = vertices  # No. of vertices
-        self.typed = defaultdict(int) # the type of processors allocation, 1: type A; 2: type B; 0: undefined
-        self.utilizationA = float # the utilization of all vertices in type A cores
-        self.utilizationB = float # the utilization of all vertices in type B cores
-        self.cpA = int  # critical path of all vertices in type A cores
-        self.cpB = int  # critical path of all vertices in type B cores
-
-
 # {
 #   "tasks": [
 #     {
 #       "task_id": 1,
-#       "period": 100,
-#       "deadline": 50,
+#       "period": 1000,
+#       "deadline": 1000,
 #       "vertices": [
 #         {
 #           "vertex_id": 1,
@@ -94,7 +48,7 @@ class Type:
 #     {
 #       "task_id": 2,
 #       "period": 200,
-#       "deadline": 80,
+#       "deadline": 200,
 #       "vertices": [
 #         {
 #           "vertex_id": 1,
@@ -121,7 +75,7 @@ class Type:
 def main(argv):
 
     tskset_file_name = 'taskset.json'
-    conf_file_name = 'configure.json'
+    conf_file_name = 'configureinput_test.json'
 
     try:
         opts, args = getopt.getopt(argv, "hi:", ["tskfname"])
@@ -195,6 +149,8 @@ def main(argv):
             print("Please note, this script can only handle one set at a time!")
             return
 
+        msets = 1
+
         for i in range(msets):
             taskset = []
             taskset_typed = []
@@ -202,6 +158,8 @@ def main(argv):
 
             tasks = data["tasks"]
 
+            if len(tasks) != ntasks:
+                print("The number of tasks is set incorrectly, please reset!")
 
             for j in range(ntasks):
                 data_task = tasks[j]
@@ -209,11 +167,11 @@ def main(argv):
                 num_nodes = num_vertices + 2
                 vertices = data_task["vertices"]
                 # DAG task pure
-                tsk_temp = Graph(num_nodes)
+                tsk_temp = gen.Graph(num_nodes)
                 # data
-                requested_data = ReqData(num_nodes)
+                requested_data = data_req.ReqData(num_nodes)
                 # typed
-                type_temp = Type(num_nodes)
+                type_temp = typed.Type(num_nodes)
 
                 tsk_temp.tsk_id = int(j)
                 tsk_temp.period = data_task["period"] * scale
@@ -224,7 +182,7 @@ def main(argv):
                 # add the common source node
                 WCETs_float.append(0)
                 struct = defaultdict(list)
-                struct[0].append(1)
+                struct[0]
                 utilis.append(0)
                 requested_data.req_data[0] = hex(0)
                 type_temp.typed[0] = 1
@@ -283,6 +241,10 @@ def main(argv):
                     print("The task is infeasible by default, please check")
                     return
 
+                print("task structure weights: ", tsk_temp.weights)
+                print("task structure successors: ", tsk_temp.graph)
+                print("Data request: ", requested_data.req_data)
+
                 taskset_data.append(requested_data)
 
 
@@ -337,6 +299,7 @@ def main(argv):
                             sorted(enumerate(taskset_temp), key=lambda x: (x[1].period, -x[1].utilization))]
             for tsk in range(ntasks):
                 taskset[sorted_index[tsk]].priority = int(tsk + 1)
+
 
 
             tasksets.append(taskset)

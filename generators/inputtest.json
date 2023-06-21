@@ -2,8 +2,8 @@
     "tasks": [
         {
             "task_id": 1,
-            "period": 100,
-            "deadline": 50,
+            "period": 1000,
+            "deadline": 1000,
             "vertices": [
                 {
                     "vertex_id": 1,
@@ -35,7 +35,7 @@
         {
             "task_id": 2,
             "period": 200,
-            "deadline": 80,
+            "deadline": 200,
             "vertices": [
                 {
                     "vertex_id": 1,
