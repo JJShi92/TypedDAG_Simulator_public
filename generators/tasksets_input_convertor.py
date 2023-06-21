@@ -78,15 +78,17 @@ def main(argv):
     conf_file_name = 'configureinput_test.json'
 
     try:
-        opts, args = getopt.getopt(argv, "hi:", ["tskfname"])
+        opts, args = getopt.getopt(argv, "hi:j:", ["confname", "tskfname"])
     except getopt.GetoptError:
-        print('tasksets_input_convertor.py -i <the JSON task set file name>')
+        print('tasksets_input_convertor.py -i <configuration file name> -j <the JSON task set file name>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('tasksets_input_convertor.py -i <the JSON task set file name>')
+            print('tasksets_input_convertor.py -i <configuration file name> -j <the JSON task set file name>')
             sys.exit()
-        elif opt in ("-i", "--tskfname"):
+        elif opt in ("-i", "--conffname"):
+            conf_file_name = str(arg)
+        elif opt in ("-j", "--tskfname"):
             tskset_file_name = str(arg)
 
     print('Read configurations . . .')
