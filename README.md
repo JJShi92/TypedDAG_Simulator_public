@@ -26,10 +26,12 @@ The configuration file contains the following parameters:
 | per_heavy        | Percentage of heavy^a or heavy^b tasks (e.g., 0%, 25%, 50%, 75%, and 100%)                                   |
 | one_type_only    | Whether to allow a task to require only one type of processor: 0 (not allowed) or 1 (allowed)                |
 | num_data_all     | Number of all available data                                                                                  |
+| num_data_per_vertex     | the maximum of data that each vertex can request                                                       |
 | num_freq_data    | Number of frequently requested data                                                                           |
 | percent_freq     | Percentage of requesting the frequently requested data                                                       |
 | allow_freq-0     | Generate requested data randomly regardless of the frequently requested data                                 |
 | allow_freq-1     | Control the percentage of frequently requested data                                                          |
+| data_req_prob    | the probability of requesting the specific data                                                              |
 | main_mem_size    | Size of the main memory. Assume a very large number can store all the requested data                          |
 | main_mem_time    | Time for data access from main memory                                                                         |
 | fast_mem_size    | Size of the fast memory                                                                                        |
