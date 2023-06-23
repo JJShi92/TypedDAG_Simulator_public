@@ -40,20 +40,22 @@ def main(argv):
     main_mem_time = conf['main_mem_time'][0]
 
     num_data_all = conf['num_data_all'][0]
+    num_data_per_vertex = conf['num_data_per_vertex'][0]
     num_freq_data = conf['num_freq_data'][0]
     percent_freq = conf['percent_freq'][0]
     allow_freq = conf['allow_freq'][0]
+    data_req_prob = conf['data_req_prob']
 
     for ut in range(len(util_all)):
 
         print("Reading the original task set ...")
         utili = float(util_all[ut] / 100)
-        tasksets_pure_name = '../experiments/inputs/tasks_pure/tasksets_pure_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '.npy'
+        tasksets_pure_name = '../experiments/inputs/tasks_pure/tasksets_pure_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_d' + str(num_data_per_vertex) + '_m' + str(main_mem_time) + '.npy'
         tasksets_pure = np.load(tasksets_pure_name, allow_pickle=True)
 
         print('Generating data requests for task sets with utilization: ', util_all[ut])
-        tasksets_data = data_req.generated_requested_data(msets, tasksets_pure, num_data_all, num_freq_data, percent_freq, allow_freq)
-        tasksets_data_name = '../experiments/inputs/tasks_data_request/tasksets_data_req_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(allow_freq) + '.npy'
+        tasksets_data = data_req.generated_requested_data(msets, tasksets_pure, num_data_all, num_data_per_vertex, num_freq_data, percent_freq, data_req_prob, allow_freq)
+        tasksets_data_name = '../experiments/inputs/tasks_data_request/tasksets_data_req_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
         np.save(tasksets_data_name, np.array(tasksets_data, dtype=object))
 
 

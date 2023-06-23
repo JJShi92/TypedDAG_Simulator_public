@@ -1,6 +1,6 @@
 {
     "mset": [
-        2
+        10
     ],
     "ntasks": [
         0
@@ -16,34 +16,36 @@
         16
     ],
     "bprocessor": [
-        8
+        4
     ],
     "pr_prob": [
         0.2,
-        0.5
+        0.7
     ],
     "utilization": [
-        20,
-        25,
-        30
+        30,
+        40
     ],
     "preempt_times": [
-        5
+        4
     ],
     "sparse": [
         0
     ],
     "skewness": [
-        1
+        0
     ],
     "per_heavy": [
-        1
+        2
     ],
     "one_type_only": [
-        0
+        1
     ],
     "num_data_all": [
         100
+    ],
+    "num_data_per_vertex": [
+        5
     ],
     "num_freq_data": [
         20
@@ -53,6 +55,13 @@
     ],
     "allow_freq": [
         0
+    ],
+    "data_req_prob": [
+        1,
+        0.8,
+        0.6,
+        0.3,
+        0.1
     ],
     "main_mem_size": [
         10000

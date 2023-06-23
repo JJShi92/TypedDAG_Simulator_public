@@ -5,32 +5,6 @@ import sys
 import getopt
 import json
 
-class Conf_settings:
-    def __init__(self):
-        self.msets = int
-        self.ntasks = int
-        self.nnodes = List[int]
-        self.scale = int
-        self.processor_a = int
-        self.processor_b = int
-        self.pc_prob = List[float]
-        self.utilization = List[int]
-        self.preempt_times = int
-        self.sparse = int
-        self.skewness = int
-        self.per_heavy = int
-        self.one_type_only = int
-        self.num_data_all = int
-        self.num_freq_data = int
-        self.percent_freq = float
-        self.allow_freq = int
-        self.main_mem_size = int
-        self.main_mem_time = int
-        self.fast_mem_size = int
-        self.fast_mem_time = int
-        self.l1_cache_size = int
-        self.l1_cache_time = int
-
 
 def read_conf(conf_file_name):
 

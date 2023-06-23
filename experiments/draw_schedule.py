@@ -63,9 +63,12 @@ def main(argv):
     one_type_only = conf['one_type_only'][0]
 
     num_data_all = conf['num_data_all'][0]
+    num_data_per_vertex = conf['num_data_per_vertex'][0]
     num_freq_data = conf['num_freq_data'][0]
     percent_freq = conf['percent_freq'][0]
     allow_freq = conf['allow_freq'][0]
+    data_req_prob = conf['data_req_prob']
+
     main_mem_size = conf['main_mem_size'][0]
     main_mem_time = conf['main_mem_time'][0]
     fast_mem_size = conf['fast_mem_size'][0]
@@ -101,9 +104,7 @@ def main(argv):
                         int(math.log10(scale))) + '_' + str(
                         preempt_times) + '_m' + str(
                         main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                        one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                        percent_freq) + '_' + str(
-                        allow_freq) + '.npy'
+                        one_type_only) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
 
         if os.path.exists(sched_wcet_name):
             sched_results = np.load(sched_wcet_name, allow_pickle=True)
@@ -114,9 +115,7 @@ def main(argv):
                 int(math.log10(scale))) + '_' + str(
                 preempt_times) + '_m' + str(
                 main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                percent_freq) + '_' + str(
-                allow_freq) + '.npy'
+                one_type_only) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
             if os.path.exists(sched_acet_name):
                 sched_results = np.load(sched_acet_name, allow_pickle=True)
             else:
@@ -127,9 +126,7 @@ def main(argv):
                     int(math.log10(scale))) + '_' + str(
                     preempt_times) + '_m' + str(
                     main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                    one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                    percent_freq) + '_' + str(
-                    allow_freq) + '.npy'
+                    one_type_only) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
                 if os.path.exists(sched_tol_wcet_name):
                     sched_results = np.load(sched_tol_wcet_name, allow_pickle=True)
                 else:
@@ -141,9 +138,7 @@ def main(argv):
                         int(math.log10(scale))) + '_' + str(
                         preempt_times) + '_m' + str(
                         main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                        one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                        percent_freq) + '_' + str(
-                        allow_freq) + '.npy'
+                        one_type_only) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
                     if os.path.exists(sched_tol_acet_name):
                         sched_results = np.load(sched_tol_acet_name, allow_pickle=True)
                     else:
@@ -155,9 +150,7 @@ def main(argv):
                             int(math.log10(scale))) + '_' + str(
                             preempt_times) + '_m' + str(
                             main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                            one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                            percent_freq) + '_' + str(
-                            allow_freq) + '.npy'
+                            one_type_only) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
                         if os.path.exists(sched_raw_name):
                             sched_results = np.load(sched_raw_name, allow_pickle=True)
                         else:

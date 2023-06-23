@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from collections import defaultdict
+from itertools import islice
 import random
 import copy
 import sys
@@ -140,12 +141,14 @@ class ThreeLayerCache:
 def count_requested_data(requested_data_set_org, hp, periods):
     requested_data_set = copy.deepcopy(requested_data_set_org)
     # Initialize a dictionary to store the counts
-    counts = defaultdict(int)
+    counts = defaultdict(float)
 
     i = 0
     for data_task in requested_data_set:
-        for item in data_task.req_data.values():
-            counts[item] += int(hp/periods[i])
+        for key, value in enumerate(data_task.req_data.items()):
+            if value[0] != 0 and value[0] != data_task.V-1:
+                for it in range(len(value[1])):
+                    counts[value[1][it]] += int(hp/periods[i]) * data_task.req_prob[value[0]][it]
         i += 1
     # sort the counts by their values decreasingly
     sorted_counts_values = dict(sorted(counts.items(), key=lambda x: x[1], reverse=True))

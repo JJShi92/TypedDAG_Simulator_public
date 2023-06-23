@@ -37,6 +37,7 @@ def main(argv):
     util_all = conf['utilization']
     preempt_times = conf['preempt_times'][0]
     scale = conf['scale'][0]
+    num_data_per_vertex = conf['num_data_per_vertex'][0]
     main_mem_time = conf['main_mem_time'][0]
 
     skewness = conf['skewness'][0]
@@ -47,7 +48,7 @@ def main(argv):
 
         print("Reading the original task set ...")
         utili = float(util_all[ut] / 100)
-        tasksets_pure_name = '../experiments/inputs/tasks_pure/tasksets_pure_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '.npy'
+        tasksets_pure_name = '../experiments/inputs/tasks_pure/tasksets_pure_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_d' + str(num_data_per_vertex) + '_m' + str(main_mem_time) + '.npy'
         tasksets_pure = np.load(tasksets_pure_name, allow_pickle=True)
 
         print('Generating typed info for task sets with utilization: ', util_all[ut])

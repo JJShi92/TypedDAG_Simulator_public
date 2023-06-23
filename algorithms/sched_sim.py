@@ -26,7 +26,7 @@ from generators import typed_core_allocation
 # vertex_id
 # job_start_time: identify the starting time of the whole job (not the sub-job of the vertex)
 # priority: for Fixed Priority scheduling algorithm. When RM is applied, the priority is the same as the period
-# requested_data
+# requested_data: a list to store all the requested data addresses
 # pure_execution_time: except the wcet of data accesses
 # start_time: of the sub-job of the vertex
 # rest_execution_time: the rest execution time to finish the sub-job of the vertex
@@ -122,6 +122,7 @@ def ready_queues_initialization(affinities_org, maximum_core):
 
 
 # Generate the real execution time
+# first minus the effect of worst case data accessing time
 # Based on normal distribution
 # wcet: worst case execution time
 # min: the minimal execution time (best case execution time)
@@ -129,7 +130,7 @@ def ready_queues_initialization(affinities_org, maximum_core):
 # Usually, we set the mean to 0.5: average execution time = 0.5 x wcet
 # std_dev: standard deviation
 # Normally, we set std_dev < 0.5 to ensure the real execution times are not far away from the mean
-def gen_real_ec(wcet_org, preempt_times, main_mem_time, min, mean, std_dev):
+def gen_real_ec(wcet_org, preempt_times, req_prob, main_mem_time, min, mean, std_dev):
     wcet = copy.deepcopy(wcet_org)
     random_prop = random.normalvariate(mean, std_dev)
 
@@ -139,7 +140,10 @@ def gen_real_ec(wcet_org, preempt_times, main_mem_time, min, mean, std_dev):
     if random_prop > 1:
         random_prop = 1
 
-    return int((wcet - (preempt_times + 1) * main_mem_time) * random_prop)
+    # count the number of data addresses that can be requested
+    data_num = sum(1 for element in req_prob if element != 0)
+
+    return int((wcet - (preempt_times + 1) * main_mem_time * data_num) * random_prop)
 
 
 # Initialize the predecessors for all vertices of tasks
@@ -161,12 +165,14 @@ def predecessors_initialization(taskset_org, task_id, mod):
 
 
 # The time for accessing requested data:
-def data_access_time(address, mem_hierarchy):
-    # The common source and end node request no data
-    if address == hex(0):
-        access_time = 0
-    else:
-        access_time = mem_hierarchy.get(address)
+def data_access_time(addresses, mem_hierarchy):
+    access_time = 0
+    for i in range(len(addresses)):
+        # The common source and end node request no data
+        if addresses[i] == hex(0):
+            access_time += 0
+        else:
+            access_time += mem_hierarchy.get(addresses[i])
 
     return access_time, mem_hierarchy
 
@@ -204,12 +210,14 @@ def abort_vertex(tasks, n_tsk, predecessors, Ready_queues, core_to_queue_mapping
                         print("Node execution time error, abort!")
                 else:
                     # rec = tasks[abt_tsk_id].weights[s_vertex_id] - ((preempt_times + 1) * main_mem_time)
-                    rec = gen_real_ec(tasks[abt_tsk_id].weights[s_vertex_id], preempt_times, main_mem_time, min_ratio, avg_ratio, std_dev)
+                    rec = gen_real_ec(tasks[abt_tsk_id].weights[s_vertex_id], preempt_times, data_requests[abt_tsk_id].req_prob[s_vertex_id], main_mem_time, min_ratio, avg_ratio, std_dev)
                     if rec < 0:
                         print("Abort execution time error!")
                         return
+                requested_data_temp = gen_requested_data(data_requests[abt_tsk_id].req_data[s_vertex_id],
+                                                         data_requests[abt_tsk_id].req_prob[s_vertex_id])
                 sub_job = Vertex(abt_tsk_id, s_vertex_id, j_start_time, tasks[abt_tsk_id].priority,
-                                 data_requests[abt_tsk_id].req_data[s_vertex_id], rec,
+                                 requested_data_temp, rec,
                                  current_time,
                                  rec,
                                  tasks[abt_tsk_id].deadlines[s_vertex_id] + j_start_time,
@@ -260,6 +268,16 @@ def find_all_successors(graph_org, vertex_org):
     successors.remove(vertex)
 
     return list(sorted(successors))
+
+
+# Define the requested data for a vertex when it is added to ready queue:
+def gen_requested_data(possible_requested_data, requested_data_probability):
+    requested_data = []
+    for i in range(len(possible_requested_data)):
+        if random.uniform(0, 1) < requested_data_probability[i]:
+            requested_data.append(possible_requested_data[i])
+
+    return requested_data
 
 
 # The general Typed DAG schedule simulator with Fixed Priority scheduling algorithm (Rate-Motonic (RM))
@@ -317,8 +335,9 @@ def typed_dag_schedule_rm_discard_sim(tasks_org, affinities_org, typed_org, data
                                 print("Node execution time error v0! ")
                         else:
                             # rec = tasks[tsk].weights[vtx] - ((preempt_times + 1) * main_mem_time)
-                            rec = gen_real_ec(tasks[tsk].weights[vtx], preempt_times, main_mem_time, min_ratio, avg_ratio, std_dev)
-                        sub_job = Vertex(tsk, vtx, t, tasks[tsk].priority, data_requests[tsk].req_data[vtx], rec, t, rec, tasks[tsk].deadlines[vtx], tasks[tsk].graph[vtx], rq_affinity, preempt_times)
+                            rec = gen_real_ec(tasks[tsk].weights[vtx], preempt_times, data_requests[tsk].req_prob[vtx], main_mem_time, min_ratio, avg_ratio, std_dev)
+                        requested_data_temp = gen_requested_data(data_requests[tsk].req_data[vtx], data_requests[tsk].req_prob[vtx])
+                        sub_job = Vertex(tsk, vtx, t, tasks[tsk].priority, requested_data_temp, rec, t, rec, tasks[tsk].deadlines[vtx], tasks[tsk].graph[vtx], rq_affinity, preempt_times)
 
                         rec_all += rec
                         # append to the corresponding ready queue
@@ -368,9 +387,10 @@ def typed_dag_schedule_rm_discard_sim(tasks_org, affinities_org, typed_org, data
                                     print("Node execution time error tp")
                             else:
                                 # rec = tasks[tsk].weights[vtx] - ((preempt_times + 1) * main_mem_time)
-                                rec = gen_real_ec(tasks[tsk].weights[vtx], preempt_times, main_mem_time, min_ratio, avg_ratio, std_dev)
-
-                            sub_job = Vertex(tsk, vtx, t, tasks[tsk].priority, data_requests[tsk].req_data[vtx], rec, t,
+                                rec = gen_real_ec(tasks[tsk].weights[vtx], preempt_times, data_requests[tsk].req_prob[vtx], main_mem_time, min_ratio, avg_ratio, std_dev)
+                            requested_data_temp = gen_requested_data(data_requests[tsk].req_data[vtx],
+                                                                     data_requests[tsk].req_prob[vtx])
+                            sub_job = Vertex(tsk, vtx, t, tasks[tsk].priority, requested_data_temp, rec, t,
                                              rec, tasks[tsk].deadlines[vtx] + t, tasks[tsk].graph[vtx],
                                              rq_affinity, preempt_times)
                             rec_all += rec
@@ -445,7 +465,7 @@ def typed_dag_schedule_rm_discard_sim(tasks_org, affinities_org, typed_org, data
                                         # rec = tasks[f_tsk_id].weights[s_vertex_id] - ((preempt_times + 1) * main_mem_time)
                                         if tasks[f_tsk_id].weights[s_vertex_id] < 0:
                                             print("Weight is wrong!")
-                                        rec = gen_real_ec(tasks[f_tsk_id].weights[s_vertex_id], preempt_times, main_mem_time, min_ratio, avg_ratio, std_dev)
+                                        rec = gen_real_ec(tasks[f_tsk_id].weights[s_vertex_id], preempt_times, data_requests[f_tsk_id].req_prob[s_vertex_id], main_mem_time, min_ratio, avg_ratio, std_dev)
                                         if rec < 0:
                                             print("Execution time error! ", rec)
                                             return
@@ -453,7 +473,9 @@ def typed_dag_schedule_rm_discard_sim(tasks_org, affinities_org, typed_org, data
                                     if rec > tasks[f_tsk_id].weights[s_vertex_id]:
                                         print("Execution time error rec")
 
-                                    sub_job = Vertex(f_tsk_id, s_vertex_id, j_start_time, tasks[f_tsk_id].priority, data_requests[f_tsk_id].req_data[s_vertex_id], rec, current_time,
+                                    requested_data_temp = gen_requested_data(data_requests[f_tsk_id].req_data[s_vertex_id],
+                                                                             data_requests[f_tsk_id].req_prob[s_vertex_id])
+                                    sub_job = Vertex(f_tsk_id, s_vertex_id, j_start_time, tasks[f_tsk_id].priority, requested_data_temp, rec, current_time,
                                                  rec, tasks[f_tsk_id].deadlines[s_vertex_id] + j_start_time, tasks[f_tsk_id].graph[s_vertex_id],
                                                  rq_affinity, preempt_times)
 
@@ -486,7 +508,8 @@ def typed_dag_schedule_rm_discard_sim(tasks_org, affinities_org, typed_org, data
                                     while sub_id < len(Ready_queues[q]):
                                         # it is impossible to be scheduled with the minimal data accessing time in the worst case
                                         # abort it in advance
-                                        if main_mem_time * (Ready_queues[q][sub_id].preempt_times + 1) + current_time + Ready_queues[q][sub_id].pure_execution_time > Ready_queues[q][sub_id].deadline:
+                                        data_num_temp = len(Ready_queues[q][sub_id].requested_data)
+                                        if data_num_temp * main_mem_time * (Ready_queues[q][sub_id].preempt_times + 1) + current_time + Ready_queues[q][sub_id].pure_execution_time > Ready_queues[q][sub_id].deadline:
                                             abt_tsk_rq = copy.deepcopy(Ready_queues[q][sub_id])
                                             del Ready_queues[q][sub_id]
                                             predecessors, Ready_queues, rec_all, new_ready_vertices = abort_vertex(tasks, abt_tsk_rq, predecessors, Ready_queues, core_to_queue_mapping, affinities, data_requests, typed_info, current_time, preempt_times, main_mem_time, min_ratio, avg_ratio, std_dev, rec_all, 1)
@@ -550,8 +573,7 @@ def typed_dag_schedule_rm_discard_sim(tasks_org, affinities_org, typed_org, data
                         # schedule the new vertex with the highest priority
                         n_tsk = Ready_queues[processors[pro].ready_queue_id].popleft()
                         # add the data accessing time
-                        data_accessing_time, memory_hierarchy = data_access_time(n_tsk.requested_data,
-                                                                                         memory_hierarchy)
+                        data_accessing_time, memory_hierarchy = data_access_time(n_tsk.requested_data, memory_hierarchy)
                         n_tsk.rest_execution_time = copy.deepcopy(n_tsk.pure_execution_time) + copy.deepcopy(data_accessing_time)
 
                         # The new vertex can potentially finish its execution

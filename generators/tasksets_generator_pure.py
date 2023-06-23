@@ -38,6 +38,7 @@ def main(argv):
     util_all = conf['utilization']
     preempt_times = conf['preempt_times'][0]
     scale = conf['scale'][0]
+    num_data_per_vertex = conf['num_data_per_vertex'][0]
     main_mem_time = conf['main_mem_time'][0]
 
     print('Task set generating . . .')
@@ -46,8 +47,8 @@ def main(argv):
 
         utili = float(util_all[ut] / 100)
         utilization = utili*(processor_a + processor_b)
-        tasksets_name = '../experiments/inputs/tasks_pure/tasksets_pure_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '.npy'
-        tasksets = gen.generate_tsk_dict(msets, ntasks, num_nodes, processor_a, processor_b, pc_prob, utilization, sparse, scale, preempt_times, main_mem_time)
+        tasksets_name = '../experiments/inputs/tasks_pure/tasksets_pure_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_d' + str(num_data_per_vertex) + '_m' + str(main_mem_time) + '.npy'
+        tasksets = gen.generate_tsk_dict(msets, ntasks, num_nodes, processor_a, processor_b, pc_prob, utilization, sparse, scale, preempt_times, num_data_per_vertex, main_mem_time)
 
         np.save(tasksets_name, np.array(tasksets, dtype=object))
 

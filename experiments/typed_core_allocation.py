@@ -68,6 +68,7 @@ def generate_tsk_type(msets, task_sets_org, processor_a, processor_b, mod_1, mod
         for j in range(len(task_sets[i])):
             num_nodes = task_sets[i][j].V
             type_temp = Type(num_nodes)
+            single_node = random.randint(1, num_nodes-1)
             # normal situation, each task require both types of processors
             if mod_3 == 0:
                 # heavy^a or heavy^b task
@@ -89,8 +90,12 @@ def generate_tsk_type(msets, task_sets_org, processor_a, processor_b, mod_1, mod
                 else:
                     # the threshold follows the M_a/(M_a + M_b)
                     threshold = processor_a / (processor_a + processor_b)
-                # since we assume # processor A > # processor B
-                # we only allow task can only require processor A here
+            elif mod_3 == 2:
+                # the special case that each task only has one node that is allocate to processor B when #A >> #B
+                # or randomly A or B when #A == #B
+                single_node = random.randint(1, num_nodes-1)
+            # since we assume # processor A > # processor B
+            # we only allow task can only require processor A here
             else:
                 # Only processor A
                 if random.uniform(0, 1) < percent:
@@ -110,14 +115,66 @@ def generate_tsk_type(msets, task_sets_org, processor_a, processor_b, mod_1, mod
                     print("something wrong")
 
             # define the type for each node
-            for node in range(0, num_nodes):
-                if random.uniform(0, 1) < threshold:
-                    type_temp.typed[node] = 1
-                    temp_weights_b[node] = 0
+            if mod_3 == 2:
+                if processor_a > processor_b:
+                    # only heavy a
+                    for node in range(0, num_nodes):
+                        if node != single_node:
+                            type_temp.typed[node] = 1
+                            temp_weights_b[node] = 0
 
+                        else:
+                            type_temp.typed[node] = 2
+                            temp_weights_a[node] = 0
                 else:
-                    type_temp.typed[node] = 2
-                    temp_weights_a[node] = 0
+                    if random.uniform(0, 1) < 0.5:
+                        # heavy a
+                        for node in range(0, num_nodes):
+                            if node != single_node:
+                                type_temp.typed[node] = 1
+                                temp_weights_b[node] = 0
+
+                            else:
+                                type_temp.typed[node] = 2
+                                temp_weights_a[node] = 0
+                    else:
+                        # heavy b
+                        for node in range(0, num_nodes):
+                            if node == single_node:
+                                type_temp.typed[node] = 1
+                                temp_weights_b[node] = 0
+
+                            else:
+                                type_temp.typed[node] = 2
+                                temp_weights_a[node] = 0
+            # unbalanced mode
+            elif threshold <= 0.1:
+                for node in range(0, num_nodes):
+                    if random.uniform(0, 1) < threshold or node == single_node:
+                        type_temp.typed[node] = 1
+                        temp_weights_b[node] = 0
+
+                    else:
+                        type_temp.typed[node] = 2
+                        temp_weights_a[node] = 0
+            elif threshold >= 0.9:
+                for node in range(0, num_nodes):
+                    if random.uniform(0, 1) < threshold and node!= single_node:
+                        type_temp.typed[node] = 1
+                        temp_weights_b[node] = 0
+
+                    else:
+                        type_temp.typed[node] = 2
+                        temp_weights_a[node] = 0
+            else:
+                for node in range(0, num_nodes):
+                    if random.uniform(0, 1) < threshold:
+                        type_temp.typed[node] = 1
+                        temp_weights_b[node] = 0
+
+                    else:
+                        type_temp.typed[node] = 2
+                        temp_weights_a[node] = 0
 
             # In the following some additional information is calculated for future usage
             # calculate the L_i^a and L_i^b

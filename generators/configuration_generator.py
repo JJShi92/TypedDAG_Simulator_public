@@ -25,10 +25,12 @@ import json
 # i.e., 0: not allowed; 1: allowed, the percentage can be defined by mod_2 (if needed)
 
 # num_data_all: the number of all the available data
+# num_data_per_vertex: the maximum of data that each vertex can request
 # num_freq_data: number of the frequently requested data
 # percent_freq: the percentage of requesting the frequently requested data
 # allow_freq-0: fully randomly generate the requested data regardless of the frequently requested data
 # allow_freq-1: control the percent of frequently requested data
+# data_req_prob: the probability of requesting the specific data
 
 # main_mem_size: the size for main memory, assume a very large number can store all the requested data
 # main_mem_time: the time for data access from main memory
@@ -47,23 +49,25 @@ import json
 
 # Define the configure setting names and values
 conf_data = {
-    'mset': [2],
+    'mset': [10],
     'ntasks': [0],
     'nnodes': [50, 100],
     'scale': [10**6],
     'aprocessor': [16],
-    'bprocessor': [8],
-    'pr_prob': [0.2, 0.5],
-    'utilization': [20, 25, 30],
-    'preempt_times': [5],
+    'bprocessor': [4],
+    'pr_prob': [0.2, 0.7],
+    'utilization': [30, 40],
+    'preempt_times': [4],
     'sparse': [0],
-    'skewness': [1],
-    'per_heavy': [1],
-    'one_type_only': [0],
+    'skewness': [0],
+    'per_heavy': [2],
+    'one_type_only': [1],
     'num_data_all': [100],
+    'num_data_per_vertex': [5],
     'num_freq_data': [20],
     'percent_freq': [0.1],
     'allow_freq': [0],
+    'data_req_prob': [1, 0.8, 0.6, 0.3, 0.1],
     'main_mem_size': [10000],
     'main_mem_time': [100],
     'fast_mem_size': [1000],

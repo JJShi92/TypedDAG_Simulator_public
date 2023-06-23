@@ -70,8 +70,6 @@ import read_configuration as readf
 # }
 
 
-
-
 def main(argv):
 
     tskset_file_name = 'taskset.json'
@@ -129,13 +127,12 @@ def main(argv):
 
         utili = float(util_all[ut] / 100)
         utilization = utili*(processor_a + processor_b)
-        tasksets_name = '../experiments/inputs/tasks_pure/tasksets_pure_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '.npy'
+        tasksets_name = '../experiments/inputs/tasks_pure/tasksets_pure_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_d' + str(num_data_per_vertex) + '_m' + str(main_mem_time) + '.npy'
 
         tasksets_data_name = '../experiments/inputs/tasks_data_request/tasksets_data_req_' + str(msets) + '_' + str(
             ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
             pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(
-            preempt_times) + '_m' + str(main_mem_time) + '_d' + str(num_data_all) + '_' + str(
-            num_freq_data) + '_' + str(percent_freq) + '_' + str(allow_freq) + '.npy'
+            preempt_times) + '_m' + str(main_mem_time) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
 
         tasksets_typed_name = '../experiments/inputs/tasks_typed/tasksets_typed_' + str(msets) + '_' + str(
             ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
@@ -194,6 +191,7 @@ def main(argv):
                     struct[n+1] = vertices[n]["successors"]
                     utilis.append(vertices[n]["execution_time"]*scale/tsk_temp.period)
                     requested_data.req_data[n+1] = vertices[n]["requested_data_address"]
+                    requested_data.req_prob[n + 1] = vertices[n]["requested_prob"]
                     type_temp.typed[n+1] = vertices[n]["core_type"]
                 # add the common end node
                 WCETs_float.append(0)

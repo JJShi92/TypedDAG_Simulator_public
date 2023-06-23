@@ -43,6 +43,9 @@
     "num_data_all": [
         100
     ],
+    "num_data_per_vertex": [
+        2
+    ],
     "num_freq_data": [
         20
     ],
@@ -51,6 +54,10 @@
     ],
     "allow_freq": [
         0
+    ],
+    "data_req_prob": [
+        1,
+        0.7
     ],
     "main_mem_size": [
         10000

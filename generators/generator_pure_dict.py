@@ -123,10 +123,9 @@ def calculate_deadlines(graph_org: Dict[int, List[int]], weights_org: List[int],
 # utilization: total utilization for a set of tasks
 # sparse: the number of tasks for a set
 # scale: the scale to keep all the parameters are integers
-def generate_tsk_dict(msets, ntasks, nnodes, processor_a, processor_b, pc_prob, utilization, sparse, scale, preempt_times, main_mem_time):
+def generate_tsk_dict(msets, ntasks, nnodes, processor_a, processor_b, pc_prob, utilization, sparse, scale, preempt_times, num_data_per_vertex, main_mem_time):
     tasksets = []
     periods_all = [1, 2, 5, 10, 20, 50, 100, 200, 1000]
-    # num_tasks = 10
     for i in range(msets):
         taskset = []
         # generate the number of tasks
@@ -134,7 +133,7 @@ def generate_tsk_dict(msets, ntasks, nnodes, processor_a, processor_b, pc_prob, 
             if sparse == 0:
                 num_tasks = random.randint(0.5 * max(processor_a, processor_b), 2 * max(processor_a, processor_b))
             if sparse == 1:
-                num_tasks = random.randint((processor_a + processor_b), 2 * (processor_a + processor_b))
+                num_tasks = random.randint((processor_a + processor_b),  2 * (processor_a + processor_b))
             if sparse == 2:
                 num_tasks = random.randint(0.25 * (processor_a + processor_b), (processor_a + processor_b))
         else:
@@ -150,17 +149,19 @@ def generate_tsk_dict(msets, ntasks, nnodes, processor_a, processor_b, pc_prob, 
             period_temp = periods_all[random.randint(0, 8)]
             periods.append(period_temp)
             num_nodes_temp = random.randint(nnodes[0], nnodes[1])
+            # num_nodes_temp = random.randint(0.5 * (processor_a + processor_b),  5 * max(processor_a, processor_b)) + 2
             num_nodes_all.append(num_nodes_temp)
             # worst case data accessing time = main_mem_time * (preempt_times + 1)
-            lower_bound_tsk_temp = num_nodes_temp * main_mem_time * (preempt_times + 1) / period_temp / scale
+            lower_bound_tsk_temp = num_nodes_temp * num_data_per_vertex * main_mem_time * (preempt_times + 1) / period_temp / scale
             util_lower_bound_set.append(lower_bound_tsk_temp)
 
         if sum(util_lower_bound_set) >= utilization:
             print("Too many preempt times, unable to generate the task set")
             return
 
+        util_upper_bound_set = [4]*num_tasks
         # drs(number, sum, upper_bound, lowe_bound)
-        util_tasks = drs(num_tasks, utilization, None, util_lower_bound_set)
+        util_tasks = drs(num_tasks, utilization, util_upper_bound_set, util_lower_bound_set)
         j = 0
         while j < num_tasks:
             # add one common source node and one common end node
@@ -174,11 +175,12 @@ def generate_tsk_dict(msets, ntasks, nnodes, processor_a, processor_b, pc_prob, 
 
             # generate the lower bound of the node of each task
             util_lower_bound_tsk = []
-            for n in range(num_nodes):
-                util_lower_bound_tsk.append(main_mem_time * (preempt_times + 1) / period / scale)
+            util_upper_bound_tsk = [1] * (num_nodes-2)
+            for n in range(num_nodes-2):
+                util_lower_bound_tsk.append(main_mem_time * num_data_per_vertex * (preempt_times + 1) / period / scale)
 
             # common source node and one common end node have 0 utilization
-            util_nodes = drs(num_nodes-2, util_tasks[j], None, util_lower_bound_tsk)
+            util_nodes = drs(num_nodes-2, util_tasks[j], util_upper_bound_tsk, util_lower_bound_tsk)
             util_nodes.insert(0, 0)
             util_nodes.append(0)
 

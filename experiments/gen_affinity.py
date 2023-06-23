@@ -59,9 +59,12 @@ def main(argv):
     one_type_only = conf['one_type_only'][0]
 
     num_data_all = conf['num_data_all'][0]
+    num_data_per_vertex = conf['num_data_per_vertex'][0]
     num_freq_data = conf['num_freq_data'][0]
     percent_freq = conf['percent_freq'][0]
     allow_freq = conf['allow_freq'][0]
+    data_req_prob = conf['data_req_prob']
+
     main_mem_size = conf['main_mem_size'][0]
     main_mem_time = conf['main_mem_time'][0]
     fast_mem_size = conf['fast_mem_size'][0]
@@ -86,14 +89,10 @@ def main(argv):
         # original task set
         tasksets_pure_name = '../experiments/inputs/tasks_pure/tasksets_pure_' + str(msets) + '_' + str(ntasks) + '_' + str(
             num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(
-            utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '.npy'
+            utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_d' + str(num_data_per_vertex) + '_m' + str(main_mem_time) + '.npy'
         tasksets_pure = np.load(tasksets_pure_name, allow_pickle=True)
         # data requests
-        tasksets_data_name = '../experiments/inputs/tasks_data_request/tasksets_data_req_' + str(msets) + '_' + str(
-            ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(
-            pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(
-            main_mem_time) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(
-            allow_freq) + '.npy'
+        tasksets_data_name = '../experiments/inputs/tasks_data_request/tasksets_data_req_' + str(msets) + '_' + str(ntasks) + '_' + str(num_nodes) + '_p' + str(processor_a) + '_' + str(processor_b) + '_q' + str(pc_prob) + '_u' + str(utili) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(preempt_times) + '_m' + str(main_mem_time) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
         tasksets_data = np.load(tasksets_data_name, allow_pickle=True)
         # typed information
         tasksets_typed_name = '../experiments/inputs/tasks_typed/tasksets_typed_' + str(msets) + '_' + str(
@@ -153,9 +152,7 @@ def main(argv):
                     pc_prob) + '_u' + str(utili) + '_' + str(s) + '_s' + str(sparse) + '_' + str(int(math.log10(scale))) + '_' + str(
                     preempt_times) + '_m' + str(
                     main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                    one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                    percent_freq) + '_' + str(
-                    allow_freq) + '.npy'
+                    one_type_only) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
                 np.save(aff_name, np.array(affinity, dtype=object))
                 print("Optimized affinity information has been saved.")
 
@@ -217,9 +214,7 @@ def main(argv):
                             int(math.log10(scale))) + '_' + str(
                             preempt_times) + '_m' + str(
                             main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                            one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                            percent_freq) + '_' + str(
-                            allow_freq) + '.npy'
+                            one_type_only) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
                         np.save(aff_name, np.array(affinity, dtype=object))
                         print("Optimized affinity information with acet has been saved.")
 
@@ -275,9 +270,7 @@ def main(argv):
                         int(math.log10(scale))) + '_' + str(
                         preempt_times) + '_m' + str(
                         main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                        one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                        percent_freq) + '_' + str(
-                        allow_freq) + '.npy'
+                        one_type_only) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
                     np.save(aff_name, np.array(affinity, dtype=object))
                     print("Optimized affinity information with tolerate A and B processors has been saved.")
 
@@ -340,9 +333,7 @@ def main(argv):
                                 int(math.log10(scale))) + '_' + str(
                                 preempt_times) + '_m' + str(
                                 main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                                one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                                percent_freq) + '_' + str(
-                                allow_freq) + '.npy'
+                                one_type_only) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
                             np.save(aff_name, np.array(affinity, dtype=object))
                             print("Optimized affinity information with acet and tolerate A and B processors has been saved.")
 
@@ -361,9 +352,7 @@ def main(argv):
                                 int(math.log10(scale))) + '_' + str(
                                 preempt_times) + '_m' + str(
                                 main_mem_time) + '_t' + str(skewness) + '_' + str(per_heavy) + '_' + str(
-                                one_type_only) + '_d' + str(num_data_all) + '_' + str(num_freq_data) + '_' + str(
-                                percent_freq) + '_' + str(
-                                allow_freq) + '.npy'
+                                one_type_only) + '_d' + str(num_data_all) + '_' + str(num_data_per_vertex) + '_' + str(num_freq_data) + '_' + str(percent_freq) + '_' + str(data_req_prob) + '_' + str(allow_freq) + '.npy'
                             np.save(aff_name, np.array(affinity, dtype=object))
                             print("Raw affinity information with type aware global schedule has been saved.")
 
