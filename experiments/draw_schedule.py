@@ -250,7 +250,7 @@ def main(argv):
             if finish_time > time_bound:
                 break
 
-    print("Total_utilization: ", durations/12000000000)
+    # print("Total_utilization: ", durations/12000000000)
 
     legend_patches = sorted(legend_patches, key=lambda patch: int(patch.get_label().split()[1]))
 
