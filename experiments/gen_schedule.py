@@ -78,7 +78,6 @@ def main(argv):
     rho_greedy = conf['rho_greedy'][0]
     rho_imp_fed = conf['rho_imp_fed'][0]
 
-    util_all = [30]
 
     for ut in range(len(util_all)):
     #for ut in range(1):
