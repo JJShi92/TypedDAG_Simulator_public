@@ -21,7 +21,7 @@ from algorithms import affinity_raw as raw
 def main(argv):
 
     # default json configuration file name
-    conf_file_name = '../generators/configure.json'
+    conf_file_name = '../generators/configure_xml.json'
     aff_mod = 0
     max_time = 10 ** 9
 

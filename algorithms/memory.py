@@ -148,7 +148,8 @@ def count_requested_data(requested_data_set_org, hp, periods):
         for key, value in enumerate(data_task.req_data.items()):
             if value[0] != 0 and value[0] != data_task.V-1:
                 for it in range(len(value[1])):
-                    counts[value[1][it]] += int(hp/periods[i]) * data_task.req_prob[value[0]][it]
+                    if value[1][it] != hex(0):
+                        counts[value[1][it]] += int(hp/periods[i]) * data_task.req_prob[value[0]][it]
         i += 1
     # sort the counts by their values decreasingly
     sorted_counts_values = dict(sorted(counts.items(), key=lambda x: x[1], reverse=True))

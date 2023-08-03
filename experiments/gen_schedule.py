@@ -21,7 +21,7 @@ from algorithms import sched_sim as sched_sim
 def main(argv):
 
     # default json configuration file name
-    conf_file_name = '../generators/configure.json'
+    conf_file_name = '../generators/configure_xml.json'
     aff_mod = 0
     max_time = 10 ** 9
 
@@ -78,6 +78,7 @@ def main(argv):
     rho_greedy = conf['rho_greedy'][0]
     rho_imp_fed = conf['rho_imp_fed'][0]
 
+    util_all = [30]
 
     for ut in range(len(util_all)):
     #for ut in range(1):
