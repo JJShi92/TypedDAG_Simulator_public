@@ -49,12 +49,12 @@ import json
 
 # Define the configure setting names and values
 conf_data = {
-    'mset': [10],
-    'ntasks': [0],
-    'nnodes': [50, 100],
+    'mset': [1],
+    'ntasks': [5],
+    'nnodes': [274, 276],
     'scale': [10**6],
-    'aprocessor': [16],
-    'bprocessor': [4],
+    'aprocessor': [72],
+    'bprocessor': [10],
     'pr_prob': [0.2, 0.7],
     'utilization': [30, 40],
     'preempt_times': [4],
@@ -62,12 +62,12 @@ conf_data = {
     'skewness': [0],
     'per_heavy': [2],
     'one_type_only': [1],
-    'num_data_all': [100],
-    'num_data_per_vertex': [5],
+    'num_data_all': [510],
+    'num_data_per_vertex': [13],
     'num_freq_data': [20],
     'percent_freq': [0.1],
     'allow_freq': [0],
-    'data_req_prob': [1, 0.8, 0.6, 0.3, 0.1],
+    'data_req_prob': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     'main_mem_size': [10000],
     'main_mem_time': [100],
     'fast_mem_size': [1000],
@@ -78,15 +78,15 @@ conf_data = {
     'avg_ratio': [0.5],
     'min_ratio': [0.1],
     'std_dev': [0.3],
-    'tolerate_pa': [20],
-    'tolerate_pb': [12],
+    'tolerate_pa': [100],
+    'tolerate_pb': [20],
     'rho_greedy': [0.5],
     'rho_imp_fed': [1/7.25]
 }
 
 # conf_names = ['mset', 'ntasks', 'aprocessor', 'bprocesspr', 'pr_prob_l', 'pc_prob_h', 'utilization', 'sparse', 'skewness', 'per_heavy', 'one_type_only', 'num_data_all', 'num_freq_data', 'percent_freq', 'allow_freq']
 
-json_file_name = 'configure.json'
+json_file_name = 'configure_xml.json'
 
 print("Generating configuration file ... ")
 
